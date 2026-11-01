@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "name": "Alex Placeholder",
+    "tagname": "alex_dev",
+    "role": "Game Developer",
+    "github": "https://github.com/example",
+    "image": "https://github.com/example.png?size=400"
+  },
+  {
+    "id": "2",
+    "name": "Sam Sample",
+    "tagname": "pixel_sam",
+    "role": "2D Artist",
+    "github": "https://github.com/octocat",
+    "image": "https://github.com/octocat.png?size=400"
+  }
+]
