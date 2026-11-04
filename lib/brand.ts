@@ -9,5 +9,5 @@ export const BRAND = {
   /** Full official name for about copy and long-form text. */
   fullName: "Game Development Club, VIT Chennai",
   /** Transparent logo asset. */
-  logoSrc: "/images/gdcvitc-logo.webp",
+  logoSrc: "/images/gdcicon.webp",
 } as const;

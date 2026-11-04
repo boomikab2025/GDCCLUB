@@ -73,7 +73,7 @@ export default function GameDetailPage() {
         <div className="absolute bottom-0 left-0 right-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
           <Link
             href={`/${lang}/games/`}
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
+            className="motion-nav-link inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" /> {dict.games.title}
           </Link>
@@ -120,7 +120,13 @@ export default function GameDetailPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid lg:grid-cols-3 gap-12">
-          <div className="lg:col-span-2">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.85 }}
+            className="lg:col-span-2"
+          >
             <Tabs defaultValue="story" className="mb-12">
               <TabsList className="mb-6">
                 <TabsTrigger value="story">{dict.games.story}</TabsTrigger>
@@ -214,10 +220,16 @@ export default function GameDetailPage() {
                 </div>
               </div>
             )}
-          </div>
+          </motion.div>
 
-          <div className="space-y-6">
-            <div className="p-6 rounded-xl border bg-card sticky top-24">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.85, delay: 0.1 }}
+            className="space-y-6"
+          >
+            <div className="motion-card p-6 rounded-xl border bg-card sticky top-24">
               <h3 className="font-bold text-lg mb-4">
                 {isComingSoon ? dict.games.toBeReleased : "Get the Game"}
               </h3>
@@ -270,7 +282,7 @@ export default function GameDetailPage() {
                 </div>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

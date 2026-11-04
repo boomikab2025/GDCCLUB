@@ -21,14 +21,14 @@ export function Logo({
   wordmarkClassName,
 }: LogoProps) {
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
+    <span className={cn("motion-logo inline-flex items-center gap-2.5", className)}>
       <Image
         src={BRAND.logoSrc}
         alt=""
         width={height}
         height={height}
         priority={priority}
-        className="shrink-0 object-contain"
+        className="shrink-0 object-contain rounded-full"
         style={{ height, width: height }}
         aria-hidden
         loading="eager"

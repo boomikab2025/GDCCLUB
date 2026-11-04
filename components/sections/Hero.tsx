@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ArrowRight, Users } from "lucide-react";
@@ -12,6 +12,7 @@ export function Hero() {
   const params = useParams();
   const lang = (params.lang as Locale) || "en";
   const dict = getDictionary(lang);
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
@@ -34,7 +35,11 @@ export function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 1.8,
+            delay: shouldReduceMotion ? 0 : 0.35,
+            ease: [0.2, 0.8, 0.2, 1],
+          }}
           className="font-display text-5xl sm:text-7xl lg:text-8xl font-bold tracking-wide mb-6"
         >
           <span className="text-gradient">{dict.hero.tagline}</span>
@@ -43,7 +48,11 @@ export function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.9,
+            delay: shouldReduceMotion ? 0 : 2.25,
+            ease: [0.2, 0.8, 0.2, 1],
+          }}
           className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
         >
           {dict.hero.subtitle}
@@ -52,7 +61,11 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.8,
+            delay: shouldReduceMotion ? 0 : 2.45,
+            ease: [0.2, 0.8, 0.2, 1],
+          }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <Link href={`/${lang}/games/`}>

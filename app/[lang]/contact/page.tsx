@@ -2,47 +2,31 @@
 
 import { motion } from "framer-motion";
 import { useParams } from "next/navigation";
-import {
-  Camera,
-  Gamepad2,
-  MessageCircle,
-  Share2,
-  Video,
-} from "lucide-react";
+import { BriefcaseBusiness, Camera, Code2, Mail } from "lucide-react";
 import { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import socialLinks from "@/data/social.json";
 
 const platforms = [
   {
-    key: "discord" as const,
-    label: "Discord",
-    href: socialLinks.discord,
-    Icon: MessageCircle,
+    label: "Gmail",
+    href: `mailto:${socialLinks.gmail}`,
+    Icon: Mail,
   },
   {
-    key: "twitter" as const,
-    label: "X / Twitter",
-    href: socialLinks.twitter,
-    Icon: Share2,
-  },
-  {
-    key: "youtube" as const,
-    label: "YouTube",
-    href: socialLinks.youtube,
-    Icon: Video,
-  },
-  {
-    key: "instagram" as const,
     label: "Instagram",
     href: socialLinks.instagram,
     Icon: Camera,
   },
   {
-    key: "steam" as const,
-    label: "Steam",
-    href: socialLinks.steam,
-    Icon: Gamepad2,
+    label: "LinkedIn",
+    href: socialLinks.linkedin,
+    Icon: BriefcaseBusiness,
+  },
+  {
+    label: "GitHub",
+    href: socialLinks.github,
+    Icon: Code2,
   },
 ];
 
@@ -83,8 +67,8 @@ export default function ContactPage() {
             return (
               <motion.li
                 key={label}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 * index }}
               >
                 {ready ? (
@@ -92,13 +76,13 @@ export default function ContactPage() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-xl border hover:border-accent/50 transition-colors"
+                    className="motion-card flex items-center gap-4 p-4 rounded-xl border hover:border-accent/50 transition-colors"
                   >
                     <Icon className="h-5 w-5 text-accent shrink-0" />
                     <span className="font-medium">{label}</span>
                   </a>
                 ) : (
-                  <div className="flex items-center gap-4 p-4 rounded-xl border bg-muted/30 opacity-80">
+                  <div className="motion-card flex items-center gap-4 p-4 rounded-xl border bg-muted/30 opacity-80">
                     <Icon className="h-5 w-5 text-accent shrink-0" />
                     <div className="flex-1">
                       <div className="font-medium">{label}</div>

@@ -59,7 +59,13 @@ export default function BlogPage() {
         </motion.div>
       ) : (
         <>
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col sm:flex-row gap-4 mb-8"
+          >
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
@@ -75,7 +81,7 @@ export default function BlogPage() {
                 <button
                   key={c}
                   onClick={() => setCategory(c)}
-                  className={`px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] rounded-sm border transition-colors ${
+                  className={`motion-button px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] rounded-sm border transition-colors ${
                     category === c
                       ? "bg-accent text-accent-foreground border-accent shadow-[0_0_12px_rgba(212,175,55,0.2)]"
                       : "border-accent/35 bg-black/60 text-muted-foreground hover:border-accent/55 hover:text-foreground"
@@ -85,18 +91,24 @@ export default function BlogPage() {
                 </button>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((post, index) => (
               <motion.article
                 key={post.id}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  type: "spring",
+                  stiffness: 160,
+                  damping: 20,
+                  delay: index * 0.05,
+                }}
               >
                 <Link href={`/${lang}/blog/${post.slug}/`}>
-                  <div className="group h-full bg-card border rounded-xl overflow-hidden hover:border-accent/50 transition-all">
+                  <div className="motion-card group h-full bg-card border rounded-xl overflow-hidden hover:border-accent/50 transition-all">
                     <div className="aspect-[16/9] overflow-hidden">
                       <img
                         src={post.coverImage}

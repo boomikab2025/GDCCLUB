@@ -34,7 +34,7 @@ export default function CommunityPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
-        className="p-8 sm:p-12 rounded-2xl border bg-gradient-to-br from-accent/10 to-accent/5 border-accent/20 text-center"
+        className="motion-card p-8 sm:p-12 rounded-2xl border bg-gradient-to-br from-accent/10 to-accent/5 border-accent/20 text-center"
       >
         <MessageCircle className="h-10 w-10 text-accent mx-auto mb-4" />
         <h2 className="text-2xl font-bold mb-3">{dict.community.discordCta}</h2>

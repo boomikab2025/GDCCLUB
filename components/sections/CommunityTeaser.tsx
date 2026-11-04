@@ -24,6 +24,7 @@ export function CommunityTeaser() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 160, damping: 20 }}
           >
             <Users className="h-12 w-12 text-accent mx-auto mb-6" />
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">

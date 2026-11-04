@@ -53,18 +53,22 @@ const dictionary: Dictionary = {
     discordCta: "Join Our Discord",
     discordDesc: "Our Discord invite will be posted here soon.",
     joinDiscord: "Join Discord",
-    linkSoon: "Invite link coming soon",
+    linkSoon: "Link coming soon",
   },
   about: {
-    title: "About Game Development Club, VIT Chennai",
+    title: "Where Ideas Become Playable Worlds.",
     story:
-      "Game Development Club, VIT Chennai is a student game development club. We craft games with care — and we’re just getting started.",
-    locationTitle: "Based at VIT Chennai",
+      "We are the Game Development Club at VIT Chennai — a community of creators, designers, programmers, and dreamers building games, exploring ideas, and pushing the boundaries of play.",
+
+    locationTitle: "Built at VIT Chennai",
     locationBody:
-      "We’re a student club at VIT Chennai building games for players everywhere. More of our story will land here as the team grows.",
-    team: "The Team",
-    teamSoon: "Team profiles coming soon.",
-    values: "What We Care About",
+      "Born from a shared passion for games, GDCVITC brings together students who love to create, experiment, and explore the art of game development. From the first sketch to the final build, we turn curiosity into creativity.",
+
+    team: "More Than Just Playing Games.",
+    teamSoon:
+      "We bring ideas to life through code, design, sound, and storytelling. Whether it's building worlds in Unity, experimenting with Godot, or crafting experiences in Unreal Engine, there's always something new to create.",
+
+    values: "Create. Experiment. Collaborate. Play."
   },
   contact: {
     title: "Get In Touch",

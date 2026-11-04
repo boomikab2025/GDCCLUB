@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { ArrowLeft, Clock, User, Tag } from "lucide-react";
 import blogPostsJson from "@/data/blog.json";
 import { Locale } from "@/lib/i18n/config";
@@ -32,10 +33,15 @@ export default function BlogPostPage() {
   }
 
   return (
-    <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.85 }}
+      className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+    >
       <Link
         href={`/${lang}/blog/`}
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors"
+        className="motion-nav-link inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors"
       >
         <ArrowLeft className="h-4 w-4" /> {dict.blog.title}
       </Link>
@@ -80,6 +86,6 @@ export default function BlogPostPage() {
           </Badge>
         ))}
       </div>
-    </article>
+    </motion.article>
   );
 }

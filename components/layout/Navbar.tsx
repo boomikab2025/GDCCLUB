@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -12,8 +12,25 @@ import { BRAND } from "@/lib/brand";
 import { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
+const navContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: { delayChildren: 0.12, staggerChildren: 0.07 },
+  },
+};
+
+const navItemVariants = {
+  hidden: { opacity: 0, y: -8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, ease: [0.2, 0.8, 0.2, 1] as const },
+  },
+};
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
   const params = useParams();
   const lang = (params.lang as Locale) || "en";
   const dict = getDictionary(lang);
@@ -29,9 +46,9 @@ export function Navbar() {
 
   return (
     <motion.header
-      initial={{ y: -100 }}
+      initial={shouldReduceMotion ? false : { y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ type: "spring", stiffness: 150, damping: 20 }}
       className="fixed top-0 left-0 right-0 z-50 glass"
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,29 +65,58 @@ export function Navbar() {
             />
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
+          <motion.div
+            variants={
+              shouldReduceMotion
+                ? {
+                    hidden: {},
+                    visible: {
+                      transition: { delayChildren: 0, staggerChildren: 0 },
+                    },
+                  }
+                : navContainerVariants
+            }
+            initial={shouldReduceMotion ? false : "hidden"}
+            animate="visible"
+            className="hidden md:flex items-center gap-1"
+          >
             {navItems.map((item) => (
-              <Link
+              <motion.div
                 key={item.href}
-                href={item.href}
-                className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-accent/10"
+                variants={
+                  shouldReduceMotion
+                    ? {
+                        hidden: { opacity: 1, y: 0 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0 } },
+                      }
+                    : navItemVariants
+                }
               >
-                {item.label}
-              </Link>
+                <Link
+                  href={item.href}
+                  className="motion-nav-link block px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-accent/10"
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           <div className="hidden md:flex items-center gap-2">
             <LanguageSwitcher />
             <Link href={`/${lang}/games/`}>
-              <Button variant="accent" size="sm" className="ml-2">
+              <Button
+                variant="accent"
+                size="sm"
+                className="motion-button-prominent ml-2"
+              >
                 {dict.nav.cta}
               </Button>
             </Link>
           </div>
 
           <button
-            className="md:hidden p-2"
+            className="motion-button md:hidden p-2"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
@@ -93,7 +139,7 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 text-base font-medium rounded-md hover:bg-accent/10 transition-colors"
+                  className="motion-nav-link block px-3 py-2 text-base font-medium rounded-md hover:bg-accent/10 transition-colors"
                 >
                   {item.label}
                 </Link>

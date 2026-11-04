@@ -2,13 +2,8 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import {
-  Camera,
-  Gamepad2,
-  MessageCircle,
-  Share2,
-  Video,
-} from "lucide-react";
+import { motion } from "framer-motion";
+import { BriefcaseBusiness, Camera, Code2, Mail } from "lucide-react";
 import { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import socialLinks from "@/data/social.json";
@@ -16,11 +11,10 @@ import { BRAND } from "@/lib/brand";
 import { BrandWordmark, Logo } from "./Logo";
 
 const socialItems = [
-  { key: "discord" as const, label: "Discord", href: socialLinks.discord, Icon: MessageCircle },
-  { key: "twitter" as const, label: "X / Twitter", href: socialLinks.twitter, Icon: Share2 },
-  { key: "youtube" as const, label: "YouTube", href: socialLinks.youtube, Icon: Video },
-  { key: "instagram" as const, label: "Instagram", href: socialLinks.instagram, Icon: Camera },
-  { key: "steam" as const, label: "Steam", href: socialLinks.steam, Icon: Gamepad2 },
+  { label: "Gmail", href: `mailto:${socialLinks.gmail}`, Icon: Mail },
+  { label: "Instagram", href: socialLinks.instagram, Icon: Camera },
+  { label: "LinkedIn", href: socialLinks.linkedin, Icon: BriefcaseBusiness },
+  { label: "GitHub", href: socialLinks.github, Icon: Code2 },
 ];
 
 export function Footer() {
@@ -37,7 +31,13 @@ export function Footer() {
   ];
 
   return (
-    <footer className="border-t bg-background">
+    <motion.footer
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.85, ease: [0.2, 0.8, 0.2, 1] }}
+      className="border-t bg-background"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="space-y-4">
@@ -58,7 +58,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-accent transition-colors"
+                    className="motion-footer-link inline-block text-sm text-muted-foreground hover:text-accent transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -76,7 +76,7 @@ export function Footer() {
                   href={href}
                   aria-label={label}
                   title={href === "#" ? `${label} (link soon)` : label}
-                  className="text-muted-foreground hover:text-accent transition-colors"
+                  className="motion-footer-link inline-block text-muted-foreground hover:text-accent transition-colors"
                   {...(href !== "#"
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : { onClick: (e) => e.preventDefault() })}
@@ -94,6 +94,6 @@ export function Footer() {
           {dict.footer.rights}
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

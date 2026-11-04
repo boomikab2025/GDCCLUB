@@ -80,8 +80,14 @@ export default function GamesPage() {
                 <motion.div
                   key={game.id}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 160,
+                    damping: 20,
+                    delay: index * 0.05,
+                  }}
                 >
                   <GameCard game={game} />
                 </motion.div>

@@ -1,17 +1,21 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useParams } from "next/navigation";
 import { Heart, Sparkles, Target, Users } from "lucide-react";
 import { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import team from "@/data/member.json";
 import { Logo } from "@/components/layout/Logo";
+import { KineticHeading } from "@/components/KineticHeading";
+
+const ABOUT_HEADLINE = "WHERE IDEAS BECOME PLAYABLE WORLDS.";
 
 export default function AboutPage() {
   const params = useParams();
   const lang = (params.lang as Locale) || "en";
   const dict = getDictionary(lang);
+  const shouldReduceMotion = useReducedMotion();
 
   const values = [
     { icon: Target, ...dict.values.craft },
@@ -22,23 +26,32 @@ export default function AboutPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-16"
-      >
-        <h1 className="text-4xl sm:text-6xl font-bold mb-6">{dict.about.title}</h1>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+      <div className="text-center mb-16">
+        <KineticHeading
+          text={ABOUT_HEADLINE}
+          className="text-4xl sm:text-6xl font-bold mb-6"
+        />
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.9,
+            delay: shouldReduceMotion ? 0 : 2.3,
+            ease: [0.2, 0.8, 0.2, 1],
+          }}
+          className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+        >
           {dict.about.story}
-        </p>
-      </motion.div>
+        </motion.p>
+      </div>
 
       <div className="grid md:grid-cols-2 gap-12 mb-24 items-center">
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-2xl border bg-card p-10 sm:p-12"
+          transition={{ type: "spring", stiffness: 150, damping: 20 }}
+          className="motion-card rounded-2xl border bg-card p-10 sm:p-12"
         >
           <div className="mb-6">
             <Logo height={48} showWordmark wordmarkClassName="text-xl" />
@@ -49,9 +62,10 @@ export default function AboutPage() {
           </p>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ type: "spring", stiffness: 150, damping: 20 }}
           className="space-y-6"
         >
           <p className="text-lg text-muted-foreground leading-relaxed">
@@ -64,9 +78,15 @@ export default function AboutPage() {
       </div>
 
       <div className="mb-24">
-        <h2 className="text-3xl font-bold text-center mb-12">
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-3xl font-bold text-center mb-12"
+        >
           {dict.about.values}
-        </h2>
+        </motion.h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {values.map((value, index) => (
             <motion.div
@@ -74,8 +94,13 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="p-6 rounded-xl border bg-card text-center hover:border-accent/50 transition-colors"
+              transition={{
+                type: "spring",
+                stiffness: 160,
+                damping: 20,
+                delay: index * 0.08,
+              }}
+              className="motion-card p-6 rounded-xl border bg-card text-center hover:border-accent/50 transition-colors"
             >
               <value.icon className="h-10 w-10 text-accent mx-auto mb-4" />
               <h3 className="font-bold text-lg mb-2">{value.title}</h3>
@@ -86,7 +111,15 @@ export default function AboutPage() {
       </div>
 
       <div>
-        <h2 className="text-3xl font-bold text-center mb-12">{dict.about.team}</h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-3xl font-bold text-center mb-12"
+        >
+          {dict.about.team}
+        </motion.h2>
         {team.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -136,8 +169,13 @@ export default function AboutPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.08 }}
-                  className="text-center group"
+                  transition={{
+                    type: "spring",
+                    stiffness: 160,
+                    damping: 20,
+                    delay: index * 0.08,
+                  }}
+                  className="motion-card text-center group rounded-2xl"
                 >
                   {member.github ? (
                     <a

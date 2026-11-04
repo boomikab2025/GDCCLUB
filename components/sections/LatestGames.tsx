@@ -21,7 +21,13 @@ export function LatestGames() {
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-end justify-between mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="flex items-end justify-between mb-12"
+        >
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">{dict.games.title}</h2>
             <p className="text-muted-foreground">{dict.games.subtitle}</p>
@@ -34,7 +40,7 @@ export function LatestGames() {
               {dict.common.viewAll} <ArrowRight className="h-4 w-4" />
             </Link>
           )}
-        </div>
+        </motion.div>
 
         {games.length === 0 ? (
           <motion.div
@@ -63,7 +69,12 @@ export function LatestGames() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 160,
+                  damping: 20,
+                  delay: index * 0.1,
+                }}
               >
                 <GameCard game={game} />
               </motion.div>

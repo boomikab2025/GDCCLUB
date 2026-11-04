@@ -1,0 +1,45 @@
+.heading {
+  max-width: 100%;
+  color: #f5f3ef;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.heading:focus-visible {
+  outline: 2px solid #e3bd43;
+  outline-offset: 0.25em;
+  border-radius: 0.1em;
+}
+
+.visual {
+  display: block;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.word {
+  display: inline-block;
+}
+
+.character {
+  display: inline-block;
+  touch-action: manipulation;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character {
+    will-change: auto;
+  }
+}

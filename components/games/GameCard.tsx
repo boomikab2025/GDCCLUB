@@ -20,7 +20,7 @@ export function GameCard({ game }: GameCardProps) {
 
   return (
     <Link href={`/${lang}/games/${game.slug}/`}>
-      <div className="group relative bg-card border rounded-xl overflow-hidden hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/5">
+      <div className="motion-card group relative bg-card border rounded-xl overflow-hidden hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/5">
         <div className="aspect-[16/10] overflow-hidden relative bg-muted">
           {game.coverImage ? (
             <img
