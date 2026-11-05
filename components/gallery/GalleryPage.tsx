@@ -9,12 +9,142 @@ import {
   X,
 } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import type { Locale } from "@/types";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import type { GalleryEventView, GalleryPhotoView } from "@/types/gallery";
 
-type GallerySlide = GalleryPhotoView;
+interface GallerySlide extends GalleryPhotoView {
+  eventId: string;
+  eventTitle: string;
+}
+
+const galleryOrderStorageKey = "gdcvitc-gallery-order-v1";
+const galleryOrderSubscribers = new Set<() => void>();
+
+function subscribeToGalleryOrder(callback: () => void): () => void {
+  galleryOrderSubscribers.add(callback);
+  return () => galleryOrderSubscribers.delete(callback);
+}
+
+function getGalleryOrderSnapshot(): string | null {
+  try {
+    return window.sessionStorage.getItem(galleryOrderStorageKey);
+  } catch {
+    return null;
+  }
+}
+
+function getServerGalleryOrderSnapshot(): null {
+  return null;
+}
+
+function getPhotosInSavedOrder(
+  photos: GallerySlide[],
+  savedOrder: string | null
+): GallerySlide[] {
+  if (!savedOrder) return photos;
+
+  try {
+    const savedIds: unknown = JSON.parse(savedOrder);
+    if (
+      !Array.isArray(savedIds) ||
+      !savedIds.every((id) => typeof id === "string")
+    ) {
+      return photos;
+    }
+
+    const photosById = new Map(photos.map((photo) => [photo.id, photo]));
+    const orderedPhotos: GallerySlide[] = [];
+    const orderedIds = new Set<string>();
+    for (const id of savedIds) {
+      const photo = photosById.get(id);
+      if (photo && !orderedIds.has(photo.id)) {
+        orderedPhotos.push(photo);
+        orderedIds.add(photo.id);
+      }
+    }
+    orderedPhotos.push(...photos.filter((photo) => !orderedIds.has(photo.id)));
+    return orderedPhotos;
+  } catch {
+    return photos;
+  }
+}
+
+function randomizePhotos(photos: GallerySlide[]): GallerySlide[] {
+  const remaining = [...photos];
+  const shuffled: GallerySlide[] = [];
+
+  while (remaining.length > 0) {
+    const previousEventId = shuffled[shuffled.length - 1]?.eventId;
+    const eligibleIndices = remaining.reduce<number[]>(
+      (indices, photo, index) => {
+        if (photo.eventId !== previousEventId) indices.push(index);
+        return indices;
+      },
+      []
+    );
+    const choices =
+      eligibleIndices.length > 0
+        ? eligibleIndices
+        : remaining.map((_, index) => index);
+    const selectedIndex = choices[Math.floor(Math.random() * choices.length)];
+    shuffled.push(remaining.splice(selectedIndex, 1)[0]);
+  }
+
+  return shuffled;
+}
+
+function getSessionPhotoOrder(photos: GallerySlide[]): GallerySlide[] {
+  const photosById = new Map(photos.map((photo) => [photo.id, photo]));
+
+  try {
+    const savedOrder = window.sessionStorage.getItem(galleryOrderStorageKey);
+    if (savedOrder) {
+      const savedIds: unknown = JSON.parse(savedOrder);
+      if (
+        Array.isArray(savedIds) &&
+        savedIds.every((id) => typeof id === "string")
+      ) {
+        const orderedPhotos: GallerySlide[] = [];
+        const orderedIds = new Set(orderedPhotos.map((photo) => photo.id));
+        for (const id of savedIds) {
+          const photo = photosById.get(id);
+          if (photo && !orderedIds.has(photo.id)) {
+            orderedPhotos.push(photo);
+            orderedIds.add(photo.id);
+          }
+        }
+        orderedPhotos.push(
+          ...photos.filter((photo) => !orderedIds.has(photo.id))
+        );
+        if (orderedPhotos.length > 0) {
+          window.sessionStorage.setItem(
+            galleryOrderStorageKey,
+            JSON.stringify(orderedPhotos.map((photo) => photo.id))
+          );
+          return orderedPhotos;
+        }
+      }
+    }
+
+    const randomized = randomizePhotos(photos);
+    window.sessionStorage.setItem(
+      galleryOrderStorageKey,
+      JSON.stringify(randomized.map((photo) => photo.id))
+    );
+    return randomized;
+  } catch (error) {
+    console.warn("Could not preserve the gallery order for this tab.", error);
+    return randomizePhotos(photos);
+  }
+}
 
 function PhotoUnavailable({ label }: { label: string }) {
   return (
@@ -34,73 +164,94 @@ function GalleryImage({
   photo: GalleryPhotoView;
   label: string;
   sizes: string;
-  fit: "cover" | "contain";
+  fit: "thumbnail" | "contain";
 }) {
   const [failed, setFailed] = useState(false);
+  const [isPortrait, setIsPortrait] = useState<boolean | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   if (!photo.available || failed) return <PhotoUnavailable label={label} />;
 
+  const imageIsPortrait = fit === "thumbnail" && isPortrait === true;
+  const imageIsLandscape = fit === "thumbnail" && isPortrait === false;
+
   return (
-    <Image
-      src={photo.src}
-      alt={photo.alt}
-      fill
-      sizes={sizes}
-      className={
-        fit === "cover"
-          ? "object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none"
-          : "object-contain"
-      }
-      onError={() => setFailed(true)}
-    />
+    <>
+      {!isLoaded && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 animate-pulse bg-white/[0.06] motion-reduce:animate-none"
+        />
+      )}
+      {imageIsPortrait && (
+        <Image
+          src={photo.src}
+          alt=""
+          aria-hidden="true"
+          fill
+          sizes={sizes}
+          loading="lazy"
+          className="scale-110 object-cover object-center opacity-55 blur-xl transition-transform duration-500 ease-out group-hover:scale-[1.16] motion-reduce:transform-none motion-reduce:transition-none"
+        />
+      )}
+      <Image
+        src={photo.src}
+        alt={photo.alt}
+        fill
+        sizes={sizes}
+        loading={fit === "thumbnail" ? "lazy" : "eager"}
+        className={
+          imageIsPortrait || fit === "contain"
+            ? "z-10 object-contain object-center"
+            : imageIsLandscape
+              ? "object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none"
+              : "object-contain object-center"
+        }
+        onLoad={(event) => {
+          setIsPortrait(
+            event.currentTarget.naturalHeight >=
+              event.currentTarget.naturalWidth
+          );
+          setIsLoaded(true);
+        }}
+        onError={() => setFailed(true)}
+      />
+    </>
   );
-}
-
-function getPhotoLayoutClass(index: number, photoCount: number): string {
-  const groupPosition = index % 3;
-  const groupSize = Math.min(3, photoCount - (index - groupPosition));
-
-  if (groupSize === 1) {
-    return "col-span-2 aspect-[16/10] sm:col-span-6 sm:row-span-1 sm:aspect-auto lg:col-span-12";
-  }
-
-  if (groupSize === 2) {
-    return "col-span-1 aspect-[4/3] sm:col-span-3 sm:row-span-1 sm:aspect-auto lg:col-span-6";
-  }
-
-  if (groupPosition === 0) {
-    return "col-span-2 aspect-[16/10] sm:col-span-4 sm:row-span-2 sm:aspect-auto lg:col-span-7";
-  }
-
-  return "col-span-1 aspect-[4/3] sm:col-span-2 sm:row-span-1 sm:aspect-auto lg:col-span-5";
 }
 
 function GalleryPhotoFrame({
   photo,
   label,
-  layoutClassName,
   onOpen,
 }: {
   photo: GalleryPhotoView;
   label: string;
-  layoutClassName: string;
   onOpen: () => void;
 }) {
   return (
-    <figure className={`group min-w-0 ${layoutClassName}`}>
+    <figure className="group min-w-0">
       <button
         type="button"
         onClick={onOpen}
         aria-label={`${photo.caption}: ${photo.alt}`}
-        className="block h-full w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+        className="block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-background"
       >
-        <div className="relative h-full min-h-0 overflow-hidden rounded-xl bg-[#11100d] shadow-[0_12px_34px_rgba(0,0,0,0.32)] ring-1 ring-white/10 transition-transform duration-300 ease-out group-hover:-translate-y-1 motion-reduce:transition-none">
+        <div className="relative aspect-video overflow-hidden rounded-xl bg-[#11100d] shadow-[0_12px_34px_rgba(0,0,0,0.32)] ring-1 ring-white/10">
           <GalleryImage
             photo={photo}
             label={label}
-            fit="contain"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 67vw, 58vw"
+            fit="thumbnail"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
           />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 via-black/25 to-transparent px-3 pb-3 pt-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+          >
+            <span className="line-clamp-2 text-sm font-medium text-white">
+              {photo.caption}
+            </span>
+          </div>
         </div>
       </button>
       <figcaption className="sr-only">
@@ -122,13 +273,34 @@ export function GalleryPage({
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const restoreFocusRef = useRef<HTMLElement | null>(null);
-  const slides = useMemo<GallerySlide[]>(
-    () => events.flatMap((event) => event.photos),
+  const sourceSlides = useMemo<GallerySlide[]>(
+    () =>
+      events.flatMap((event) =>
+        event.photos.map((photo) => ({
+          ...photo,
+          eventId: event.eventId,
+          eventTitle: event.eventTitle,
+        }))
+      ),
     [events]
+  );
+  const savedOrder = useSyncExternalStore(
+    subscribeToGalleryOrder,
+    getGalleryOrderSnapshot,
+    getServerGalleryOrderSnapshot
+  );
+  const slides = useMemo(
+    () => getPhotosInSavedOrder(sourceSlides, savedOrder),
+    [sourceSlides, savedOrder]
   );
   const isLightboxOpen = activeIndex !== null;
   const activeSlide =
     activeIndex === null ? null : (slides[activeIndex] ?? null);
+
+  useEffect(() => {
+    getSessionPhotoOrder(sourceSlides);
+    galleryOrderSubscribers.forEach((subscriber) => subscriber());
+  }, [sourceSlides]);
 
   useEffect(() => {
     if (!isLightboxOpen) return;
@@ -152,17 +324,25 @@ export function GalleryPage({
           current === null ? null : Math.min(slides.length - 1, current + 1)
         );
       } else if (event.key === "Tab") {
-        const buttons =
-          dialogRef.current?.querySelectorAll<HTMLButtonElement>(
-            "button:not(:disabled)"
-          );
+        const buttons = dialogRef.current?.querySelectorAll<HTMLButtonElement>(
+          "button:not(:disabled)"
+        );
         if (!buttons?.length) return;
         const first = buttons[0];
         const last = buttons[buttons.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
+        const dialog = dialogRef.current;
+        if (
+          event.shiftKey &&
+          (document.activeElement === first ||
+            document.activeElement === dialog)
+        ) {
           event.preventDefault();
           last.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
+        } else if (
+          !event.shiftKey &&
+          (document.activeElement === last ||
+            document.activeElement === dialog)
+        ) {
           event.preventDefault();
           first.focus();
         }
@@ -208,13 +388,12 @@ export function GalleryPage({
             {dict.gallery.noEvents}
           </p>
         ) : (
-          <div className="grid grid-cols-2 gap-3 py-10 sm:grid-cols-6 sm:gap-4 sm:[grid-auto-rows:clamp(8rem,14vw,11rem)] lg:grid-cols-12 lg:gap-5 lg:[grid-auto-rows:clamp(12rem,16vw,15rem)]">
+          <div className="grid grid-cols-2 gap-3 py-10 sm:gap-4 lg:grid-cols-3 lg:gap-5">
             {slides.map((photo, index) => (
               <GalleryPhotoFrame
                 key={photo.id}
                 photo={photo}
                 label={dict.gallery.photoUnavailable}
-                layoutClassName={getPhotoLayoutClass(index, slides.length)}
                 onOpen={() => openPhoto(index)}
               />
             ))}
@@ -275,6 +454,9 @@ export function GalleryPage({
               <div className="mt-4 max-w-3xl text-center">
                 <p className="text-sm font-medium text-foreground sm:text-base">
                   {activeSlide.caption}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {activeSlide.eventTitle}
                 </p>
               </div>
             </div>

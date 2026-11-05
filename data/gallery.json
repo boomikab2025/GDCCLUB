@@ -14,13 +14,13 @@
       },
       {
         "id": "workshop-brainstorm",
-        "src": "/images/gallery/02-brainstorm.png",
+        "src": "/images/gallery/01-planning.png",
         "alt": "Participants brainstorming game concepts",
         "caption": "Sharing ideas"
       },
       {
         "id": "workshop-project",
-        "src": "/images/gallery/03-project.png",
+        "src": "/images/gallery/01-planning.png",
         "alt": "A game project created during the workshop",
         "caption": "The project takes shape"
       }
@@ -35,19 +35,19 @@
     "photos": [
       {
         "id": "pixel-jam-team",
-        "src": "/images/gallery/01-team.png",
+        "src": "/images/gallery/01-planning.png",
         "alt": "The Pixel Art Game Jam team working together",
         "caption": "The team at work"
       },
       {
         "id": "pixel-jam-art",
-        "src": "/images/gallery/02-pixel-art.png",
+        "src": "/images/gallery/01-planning.png",
         "alt": "Pixel art created during the game jam",
         "caption": "Making pixel art"
       },
       {
         "id": "pixel-jam-showcase",
-        "src": "/images/gallery/03-showcase.png",
+        "src": "/images/gallery/01-planning.png",
         "alt": "A game showcased at the Pixel Art Game Jam",
         "caption": "Showcase moments"
       }
