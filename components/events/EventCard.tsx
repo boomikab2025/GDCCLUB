@@ -7,7 +7,7 @@ import { CalendarDays, MapPin, Sparkles } from "lucide-react";
 import type { Dictionary, Locale } from "@/types";
 import type { ClubEvent } from "@/types/event";
 import { EventCountdown } from "./EventCountdown";
-import { formatEventDateRange } from "./event-utils";
+import { formatEventDateRange, isEventUpcoming } from "./event-utils";
 import { useEventTransition } from "./EventTransitionProvider";
 
 export function EventCard({
@@ -32,6 +32,7 @@ export function EventCard({
   const imageY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [-8, 8]);
   const { openEvent } = useEventTransition();
   const formattedDate = formatEventDateRange(event.date, event.endDate, locale);
+  const eventIsUpcoming = isEventUpcoming(event, now);
 
   return (
     <motion.article
@@ -74,7 +75,7 @@ export function EventCard({
           )}
           <div className="absolute left-4 top-4">
             <span className="rounded-full border border-accent/40 bg-black/70 px-3 py-1 text-xs font-medium text-accent backdrop-blur">
-              {event.status === "upcoming" ? dict.events.upcoming : dict.events.past}
+              {eventIsUpcoming ? dict.events.upcoming : dict.events.past}
             </span>
           </div>
         </div>
@@ -97,7 +98,7 @@ export function EventCard({
           <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
             {event.shortDescription}
           </p>
-          {event.status === "upcoming" && (
+          {eventIsUpcoming && (
             <EventCountdown
               date={event.date}
               endDate={event.endDate}

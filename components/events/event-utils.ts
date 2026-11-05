@@ -3,6 +3,7 @@ import type { ClubEvent } from "@/types/event";
 
 const ISO_DATE_WITH_TIMEZONE =
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})$/;
+const EVENT_TIME_ZONE = "Asia/Kolkata";
 
 export function parseEventDate(value: string): Date | null {
   const parts =
@@ -34,15 +35,14 @@ export function parseEventDate(value: string): Date | null {
 export function formatEventDate(value: string, locale: Locale): string | null {
   const date = parseEventDate(value);
   return date
-    ? new Intl.DateTimeFormat(locale, {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        timeZone: "UTC",
-        timeZoneName: "short",
-      }).format(date)
+    ? `${new Intl.DateTimeFormat(locale, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: EVENT_TIME_ZONE,
+    }).format(date)} IST`
     : null;
 }
 
