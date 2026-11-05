@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/layout/MotionProvider";
 import { isValidLocale } from "@/lib/i18n/config";
 import { notFound } from "next/navigation";
+import { EventTransitionProvider } from "@/components/events/EventTransitionProvider";
 
 export default async function LangLayout({
   children,
@@ -19,11 +20,13 @@ export default async function LangLayout({
 
   return (
     <MotionProvider>
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1 pt-16">{children}</main>
-        <Footer />
-      </div>
+      <EventTransitionProvider lang={lang}>
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
+          <main className="flex-1 pt-16">{children}</main>
+          <Footer />
+        </div>
+      </EventTransitionProvider>
     </MotionProvider>
   );
 }

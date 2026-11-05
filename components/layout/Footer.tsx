@@ -24,6 +24,7 @@ export function Footer() {
 
   const links = [
     { label: dict.nav.games, href: `/${lang}/games/` },
+    { label: dict.nav.events, href: `/${lang}/events/` },
     { label: dict.nav.community, href: `/${lang}/community/` },
     { label: dict.nav.about, href: `/${lang}/about/` },
     { label: dict.nav.contact, href: `/${lang}/contact/` },

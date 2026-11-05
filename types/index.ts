@@ -58,6 +58,7 @@ export interface Dictionary {
   nav: {
     home: string;
     games: string;
+    events: string;
     community: string;
     about: string;
     contact: string;
@@ -86,6 +87,29 @@ export interface Dictionary {
     story: string;
     features: string;
     requirements: string;
+  };
+  events: {
+    title: string;
+    description: string;
+    upcoming: string;
+    past: string;
+    details: string;
+    viewEvent: string;
+    backToEvents: string;
+    registerNow: string;
+    startsIn: string;
+    eventStarted: string;
+    noUpcoming: string;
+    noPast: string;
+    notFound: string;
+    venue: string;
+    category: string;
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+    dateTba: string;
+    gallery: string;
   };
   community: {
     title: string;

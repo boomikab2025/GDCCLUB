@@ -38,6 +38,7 @@ export function Navbar() {
   const navItems = [
     { label: dict.nav.home, href: `/${lang}/` },
     { label: dict.nav.games, href: `/${lang}/games/` },
+    { label: dict.nav.events, href: `/${lang}/events/` },
     { label: dict.nav.community, href: `/${lang}/community/` },
     { label: dict.nav.about, href: `/${lang}/about/` },
     { label: dict.nav.contact, href: `/${lang}/contact/` },
