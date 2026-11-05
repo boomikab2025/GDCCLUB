@@ -1,26 +1,41 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import type { Locale } from "@/types";
 import type { ClubEvent } from "@/types/event";
 import { EventParticles } from "./EventParticles";
 import { EventSection } from "./EventSection";
+import { useEventTransition } from "./EventTransitionProvider";
 import { splitEvents } from "./event-utils";
 
-export function EventsListing({ events }: { events: ClubEvent[] }) {
+export function EventsListing({
+  events,
+  now: initialNow,
+}: {
+  events: ClubEvent[];
+  now: number;
+}) {
   const params = useParams<{ lang: string }>();
   const locale = params.lang as Locale;
   const dict = getDictionary(locale);
   const reduceMotion = useReducedMotion();
-  const sections = splitEvents(events);
+  const [now, setNow] = useState(initialNow);
+  const { isListingTransitioning } = useEventTransition();
+  const sections = splitEvents(events, now);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setNow(Date.now()), 30_000);
+    return () => window.clearInterval(interval);
+  }, []);
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: reduceMotion ? 0.18 : 0.4 }}
+      animate={{ opacity: isListingTransitioning ? 0.18 : 1 }}
+      transition={{ duration: reduceMotion ? 0.12 : 0.68 }}
       className="relative isolate overflow-hidden"
     >
       <section

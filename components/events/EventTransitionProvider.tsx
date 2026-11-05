@@ -22,7 +22,15 @@ interface Rect {
   height: number;
 }
 
+type TransitionPhase =
+  | "expanding"
+  | "awaiting-detail"
+  | "awaiting-list"
+  | "collapsing"
+  | "fading";
+
 interface Origin {
+  id: number;
   slug: string;
   image: string;
   rect: Rect;
@@ -31,23 +39,35 @@ interface Origin {
 }
 
 interface Overlay {
+  id: number;
   image: string;
   from: Rect;
   to: Rect;
+  sourcePath: string;
   destination: string;
-  expanded: boolean;
-  fading: boolean;
+  phase: TransitionPhase;
 }
 
 interface TransitionContextValue {
   openEvent: (event: ClubEvent, origin?: DOMRect) => void;
   backToEvents: (slug: string) => void;
+  isListingTransitioning: boolean;
 }
 
 const TransitionContext = createContext<TransitionContextValue | null>(null);
 
 function normalizedPath(path: string) {
   return path.replace(/\/+$/, "") || "/";
+}
+
+function rectFromElement(element: Element): Rect {
+  const rect = element.getBoundingClientRect();
+  return {
+    left: rect.left,
+    top: rect.top,
+    width: rect.width,
+    height: rect.height,
+  };
 }
 
 export function useEventTransition() {
@@ -71,6 +91,7 @@ export function EventTransitionProvider({
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
   const originRef = useRef<Origin | null>(null);
+  const nextIdRef = useRef(0);
   const [overlay, setOverlay] = useState<Overlay | null>(null);
 
   const viewportRect = useCallback(
@@ -85,8 +106,9 @@ export function EventTransitionProvider({
 
   const openEvent = useCallback(
     (event: ClubEvent, sourceRect?: DOMRect) => {
-      const listPath = `/${lang}/events`;
+      const listPath = normalizedPath(`/${lang}/events`);
       if (sourceRect) {
+        const id = ++nextIdRef.current;
         const rect = {
           left: sourceRect.left,
           top: sourceRect.top,
@@ -94,6 +116,7 @@ export function EventTransitionProvider({
           height: sourceRect.height,
         };
         originRef.current = {
+          id,
           slug: event.slug,
           image: event.coverImage,
           rect,
@@ -102,17 +125,18 @@ export function EventTransitionProvider({
         };
         if (!reduceMotion && event.coverImage) {
           setOverlay({
+            id,
             image: event.coverImage,
             from: rect,
             to: viewportRect(),
+            sourcePath: listPath,
             destination: normalizedPath(`${listPath}/${event.slug}`),
-            expanded: false,
-            fading: false,
+            phase: "expanding",
           });
         }
       }
 
-      router.push(`${listPath}/${event.slug}`);
+      router.push(`${listPath}/${event.slug}`, { scroll: false });
     },
     [lang, reduceMotion, router, viewportRect]
   );
@@ -120,59 +144,151 @@ export function EventTransitionProvider({
   const backToEvents = useCallback(
     (slug: string) => {
       const origin = originRef.current;
-      const listPath = origin?.slug === slug ? origin.listPath : `/${lang}/events`;
-
-      if (origin?.slug === slug && !reduceMotion) {
-        setOverlay({
-          image: origin.image,
-          from: viewportRect(),
-          to: origin.rect,
-          destination: normalizedPath(listPath),
-          expanded: false,
-          fading: false,
-        });
-      }
-
       if (origin?.slug === slug) {
         router.back();
       } else {
-        router.push(listPath);
+        router.push(`/${lang}/events/`);
       }
     },
-    [lang, reduceMotion, router, viewportRect]
+    [lang, router]
   );
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const origin = originRef.current;
+      if (!origin) return;
+
+      const currentPath = normalizedPath(window.location.pathname);
+      const detailPath = normalizedPath(`${origin.listPath}/${origin.slug}`);
+      const id = ++nextIdRef.current;
+
+      if (
+        !reduceMotion &&
+        origin.image &&
+        currentPath === origin.listPath
+      ) {
+        setOverlay({
+          id,
+          image: origin.image,
+          from: viewportRect(),
+          to: origin.rect,
+          sourcePath: detailPath,
+          destination: origin.listPath,
+          phase: "awaiting-list",
+        });
+      } else if (
+        !reduceMotion &&
+        origin.image &&
+        currentPath === detailPath
+      ) {
+        setOverlay({
+          id,
+          image: origin.image,
+          from: origin.rect,
+          to: viewportRect(),
+          sourcePath: origin.listPath,
+          destination: detailPath,
+          phase: "expanding",
+        });
+      } else if (currentPath !== origin.listPath && currentPath !== detailPath) {
+        originRef.current = null;
+        setOverlay(null);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [reduceMotion, viewportRect]);
 
   useLayoutEffect(() => {
     const origin = originRef.current;
-    if (origin && normalizedPath(pathname) === normalizedPath(origin.listPath)) {
-      const previousScrollBehavior = document.documentElement.style.scrollBehavior;
-      document.documentElement.style.scrollBehavior = "auto";
+    if (!origin || normalizedPath(pathname) !== origin.listPath) return;
+
+    const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo(0, origin.scrollY);
+    document.documentElement.style.scrollBehavior = previousScrollBehavior;
+
+    if (reduceMotion || !origin.image) return;
+
+    const firstFrame = window.requestAnimationFrame(() => {
       window.scrollTo(0, origin.scrollY);
-      document.documentElement.style.scrollBehavior = previousScrollBehavior;
-    }
-  }, [pathname]);
+      const card = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-event-image]")
+      ).find((element) => element.dataset.eventImage === origin.slug);
+      const target = card ? rectFromElement(card) : null;
 
-  const routeReady =
-    overlay !== null &&
-    normalizedPath(pathname) === overlay.destination;
+      setOverlay((current) => {
+        if (
+          !current ||
+          current.phase !== "awaiting-list" ||
+          current.destination !== origin.listPath
+        ) {
+          return current;
+        }
+        return {
+          ...current,
+          to: target ?? current.to,
+          phase: target ? "collapsing" : "fading",
+        };
+      });
+    });
 
-  useEffect(() => {
-    if (!overlay?.expanded || !routeReady || overlay.fading) return;
-    const timer = window.setTimeout(
-      () => setOverlay((current) => (current ? { ...current, fading: true } : current)),
-      80
-    );
-    return () => window.clearTimeout(timer);
-  }, [overlay, routeReady]);
+    return () => window.cancelAnimationFrame(firstFrame);
+  }, [pathname, reduceMotion]);
 
   useEffect(() => {
     if (!overlay) return;
-    const timer = window.setTimeout(() => setOverlay(null), 3000);
-    return () => window.clearTimeout(timer);
-  }, [overlay]);
+    const currentPath = normalizedPath(pathname);
+    if (
+      currentPath === overlay.sourcePath ||
+      currentPath === overlay.destination
+    ) {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      setOverlay((current) => (current?.id === overlay.id ? null : current));
+      originRef.current = null;
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [overlay, pathname]);
+
+  const routeReady =
+    overlay !== null &&
+    overlay.phase === "awaiting-detail" &&
+    normalizedPath(pathname) === overlay.destination;
+
+  const isListingTransitioning =
+    overlay !== null &&
+    overlay.destination !== overlay.sourcePath &&
+    normalizedPath(pathname) === overlay.sourcePath;
+
+  const completeAnimation = useCallback((current: Overlay) => {
+    if (current.phase === "expanding") {
+      setOverlay((active) =>
+        active?.id === current.id
+          ? { ...active, phase: "awaiting-detail" }
+          : active
+      );
+    } else if (
+      current.phase === "collapsing" ||
+      current.phase === "fading" ||
+      (current.phase === "awaiting-detail" && routeReady)
+    ) {
+      setOverlay((active) => (active?.id === current.id ? null : active));
+    }
+  }, [routeReady]);
+  const overlayTarget = overlay
+    ? overlay.phase === "collapsing"
+      ? overlay.to
+      : viewportRect()
+    : null;
 
   return (
-    <TransitionContext.Provider value={{ openEvent, backToEvents }}>
+    <TransitionContext.Provider
+      value={{ openEvent, backToEvents, isListingTransitioning }}
+    >
       {children}
       {overlay && (
         <motion.div
@@ -187,41 +303,30 @@ export function EventTransitionProvider({
             opacity: 1,
           }}
           animate={{
-            left: overlay.expanded ? overlay.to.left : overlay.to.left,
-            top: overlay.expanded ? overlay.to.top : overlay.to.top,
-            width: overlay.expanded ? overlay.to.width : overlay.to.width,
-            height: overlay.expanded ? overlay.to.height : overlay.to.height,
-            borderRadius: overlay.expanded ? 0 : 0,
-            opacity: overlay.fading ? 0 : 1,
+            left: overlayTarget?.left ?? 0,
+            top: overlayTarget?.top ?? 0,
+            width: overlayTarget?.width ?? 0,
+            height: overlayTarget?.height ?? 0,
+            borderRadius: overlay.phase === "collapsing" ? 16 : 0,
+            opacity: overlay.phase === "fading" || routeReady ? 0 : 1,
           }}
           transition={{
-            left: { duration: overlay.expanded ? 0.28 : 0.68, ease: [0.2, 0.8, 0.2, 1] },
-            top: { duration: overlay.expanded ? 0.28 : 0.68, ease: [0.2, 0.8, 0.2, 1] },
-            width: { duration: overlay.expanded ? 0.28 : 0.68, ease: [0.2, 0.8, 0.2, 1] },
-            height: { duration: overlay.expanded ? 0.28 : 0.68, ease: [0.2, 0.8, 0.2, 1] },
-            borderRadius: { duration: overlay.expanded ? 0.28 : 0.68 },
+            duration:
+              overlay.phase === "expanding" || overlay.phase === "collapsing"
+                ? 0.68
+                : 0.24,
+            ease: [0.2, 0.8, 0.2, 1],
             opacity: { duration: 0.24 },
           }}
-          onAnimationComplete={() => {
-            if (!overlay.expanded) {
-              setOverlay((current) =>
-                current ? { ...current, expanded: true } : current
-              );
-            } else if (overlay.fading) {
-              setOverlay(null);
-            }
-          }}
+          onAnimationComplete={() => completeAnimation(overlay)}
         >
-          {overlay.image && (
-            <Image
-              src={overlay.image}
-              alt=""
-              fill
-              sizes="100vw"
-              unoptimized
-              className="object-cover"
-            />
-          )}
+          <Image
+            src={overlay.image}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
         </motion.div>
       )}
     </TransitionContext.Provider>

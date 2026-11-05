@@ -16,10 +16,20 @@ import type { Locale } from "@/types";
 import type { ClubEvent } from "@/types/event";
 import { Button } from "@/components/ui/button";
 import { EventCountdown } from "./EventCountdown";
-import { formatEventDate, isSafeRegistrationUrl } from "./event-utils";
+import {
+  formatEventDateRange,
+  isEventUpcoming,
+  isSafeRegistrationUrl,
+} from "./event-utils";
 import { useEventTransition } from "./EventTransitionProvider";
 
-export function EventDetails({ event }: { event: ClubEvent }) {
+export function EventDetails({
+  event,
+  now,
+}: {
+  event: ClubEvent;
+  now: number;
+}) {
   const params = useParams<{ lang: string }>();
   const locale = params.lang as Locale;
   const dict = getDictionary(locale);
@@ -31,7 +41,12 @@ export function EventDetails({ event }: { event: ClubEvent }) {
   });
   const imageY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [0, 18]);
   const { backToEvents } = useEventTransition();
-  const formattedDate = formatEventDate(event.date, locale);
+  const formattedDate = formatEventDateRange(
+    event.date,
+    event.endDate,
+    locale
+  );
+  const eventIsUpcoming = isEventUpcoming(event, now);
 
   return (
     <motion.article
@@ -45,14 +60,13 @@ export function EventDetails({ event }: { event: ClubEvent }) {
         className="relative flex min-h-[calc(100svh-4rem)] items-end overflow-hidden bg-secondary"
       >
         {event.coverImage ? (
-          <motion.div className="absolute inset-0" style={{ y: imageY }}>
+          <motion.div className="absolute -inset-y-6 inset-x-0" style={{ y: imageY }}>
             <Image
               src={event.coverImage}
               alt={event.title}
               fill
               sizes="100vw"
               preload
-              unoptimized
               className="object-cover"
             />
           </motion.div>
@@ -76,7 +90,7 @@ export function EventDetails({ event }: { event: ClubEvent }) {
           </button>
           <div className="mb-5 flex flex-wrap gap-2">
             <span className="rounded-full border border-accent/50 bg-black/50 px-3 py-1 text-xs font-semibold text-accent backdrop-blur">
-              {event.status === "upcoming" ? dict.events.upcoming : dict.events.past}
+              {eventIsUpcoming ? dict.events.upcoming : dict.events.past}
             </span>
             <span className="rounded-full border border-white/25 bg-black/40 px-3 py-1 text-xs text-white/90 backdrop-blur">
               {event.category}
@@ -102,7 +116,7 @@ export function EventDetails({ event }: { event: ClubEvent }) {
               {event.category}
             </span>
           </div>
-          {event.status === "upcoming" && (
+          {eventIsUpcoming && (
             <EventCountdown date={event.date} dict={dict} locale={locale} />
           )}
           {isSafeRegistrationUrl(event.registrationUrl) && (
@@ -157,7 +171,6 @@ export function EventDetails({ event }: { event: ClubEvent }) {
                     alt={`${event.title} — ${index + 1}`}
                     fill
                     sizes="(max-width: 640px) 100vw, 50vw"
-                    unoptimized
                     className="object-cover"
                   />
                 </motion.div>

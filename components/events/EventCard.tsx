@@ -7,7 +7,7 @@ import { CalendarDays, MapPin, Sparkles } from "lucide-react";
 import type { Dictionary, Locale } from "@/types";
 import type { ClubEvent } from "@/types/event";
 import { EventCountdown } from "./EventCountdown";
-import { formatEventDate } from "./event-utils";
+import { formatEventDateRange } from "./event-utils";
 import { useEventTransition } from "./EventTransitionProvider";
 
 export function EventCard({
@@ -29,7 +29,7 @@ export function EventCard({
   });
   const imageY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [-8, 8]);
   const { openEvent } = useEventTransition();
-  const formattedDate = formatEventDate(event.date, locale);
+  const formattedDate = formatEventDateRange(event.date, event.endDate, locale);
 
   return (
     <motion.article
@@ -49,6 +49,7 @@ export function EventCard({
       >
         <div
           ref={imageRef}
+          data-event-image={event.slug}
           className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-accent/15 via-secondary to-background"
         >
           {event.coverImage ? (
@@ -61,7 +62,6 @@ export function EventCard({
                 alt={event.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                unoptimized
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               />
             </motion.div>

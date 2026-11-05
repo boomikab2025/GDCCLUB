@@ -41,9 +41,13 @@ export function EventCountdown({
 
   useEffect(() => {
     if (target === undefined) return;
-    const update = () => setRemaining(getRemainingTime(target));
-    update();
+    const update = () => {
+      const next = getRemainingTime(target);
+      setRemaining(next);
+      if (next.started) window.clearInterval(interval);
+    };
     const interval = window.setInterval(update, 1000);
+    update();
     return () => window.clearInterval(interval);
   }, [target]);
 
