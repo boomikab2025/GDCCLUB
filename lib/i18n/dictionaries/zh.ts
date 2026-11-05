@@ -45,6 +45,7 @@ const dictionary: Dictionary = {
     registerNow: "立即报名",
     startsIn: "距离活动开始",
     eventStarted: "活动已开始。",
+    eventInProgress: "活动进行中",
     noUpcoming: "目前没有即将举行的活动，请稍后再来。",
     noPast: "往期活动详情将在这里显示。",
     notFound: "找不到该活动。",

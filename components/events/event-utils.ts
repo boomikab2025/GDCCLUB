@@ -93,9 +93,10 @@ function effectiveEndDate(event: ClubEvent): number | undefined {
 }
 
 export function isEventUpcoming(event: ClubEvent, now: number): boolean {
-  if (event.status === "past") return false;
+  const startDate = parseEventDate(event.date)?.getTime();
+  if (startDate === undefined) return event.status === "upcoming";
   const endDate = effectiveEndDate(event);
-  return endDate === undefined || endDate > now;
+  return endDate !== undefined && endDate > now;
 }
 
 export function splitEvents(events: ClubEvent[], now = Date.now()) {

@@ -311,6 +311,7 @@ export function EventTransitionProvider({
             opacity: overlay.phase === "fading" || routeReady ? 0 : 1,
           }}
           transition={{
+            type: "tween",
             duration:
               overlay.phase === "expanding" || overlay.phase === "collapsing"
                 ? 0.68

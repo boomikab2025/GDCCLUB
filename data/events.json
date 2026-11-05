@@ -1,1 +1,31 @@
-[]
+
+[
+  {
+    "id": "demo-event-001",
+    "slug": "game-development-workshop-demo",
+    "title": "Game Development Workshop",
+    "shortDescription": "Explore game mechanics, level design and the basics of building your first game.",
+    "description": "A sample upcoming event for testing the GDCVITC Events page. Participants explore game development concepts, design workflows and interactive experiences.",
+    "date": "2027-01-15T10:00:00+05:30",
+    "endDate": "2027-01-15T16:00:00+05:30",
+    "venue": "VIT Vellore",
+    "category": "Workshop",
+    "coverImage": "",
+    "status": "upcoming",
+    "featured": true
+  },
+  {
+    "id": "demo-event-002",
+    "slug": "pixel-art-jam-demo",
+    "title": "Pixel Art Game Jam",
+    "shortDescription": "A creative event exploring pixel art, game concepts and collaborative game design.",
+    "description": "A sample past event for testing the GDCVITC Events page. This entry lets you inspect how completed events appear in the Past Events section.",
+    "date": "2026-09-20T10:00:00+05:30",
+    "endDate": "2026-09-20T17:00:00+05:30",
+    "venue": "VIT Vellore",
+    "category": "Game Jam",
+    "coverImage": "",
+    "status": "past",
+    "featured": false
+  }
+]

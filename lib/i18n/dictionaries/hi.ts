@@ -47,6 +47,7 @@ const dictionary: Dictionary = {
     registerNow: "अभी रजिस्टर करें",
     startsIn: "इवेंट शुरू होने में",
     eventStarted: "यह इवेंट शुरू हो चुका है।",
+    eventInProgress: "इवेंट जारी है",
     noUpcoming: "अभी कोई आगामी इवेंट नहीं है। जल्द फिर देखें।",
     noPast: "पिछले इवेंट्स की जानकारी यहाँ दिखाई जाएगी।",
     notFound: "यह इवेंट नहीं मिला।",

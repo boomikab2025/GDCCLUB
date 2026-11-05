@@ -10,12 +10,24 @@ interface RemainingTime {
   minutes: number;
   seconds: number;
   started: boolean;
+  inProgress: boolean;
 }
 
-function getRemainingTime(target: number): RemainingTime {
-  const difference = target - Date.now();
+function getRemainingTime(
+  target: number,
+  endTarget?: number,
+  now = Date.now()
+): RemainingTime {
+  const difference = target - now;
   if (difference <= 0) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0, started: true };
+    return {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      started: true,
+      inProgress: endTarget !== undefined && endTarget > now,
+    };
   }
   const totalSeconds = Math.floor(difference / 1000);
   return {
@@ -24,34 +36,45 @@ function getRemainingTime(target: number): RemainingTime {
     minutes: Math.floor((totalSeconds % 3_600) / 60),
     seconds: totalSeconds % 60,
     started: false,
+    inProgress: false,
   };
 }
 
 export function EventCountdown({
   date,
+  endDate,
   dict,
   locale,
+  now,
 }: {
   date: string;
+  endDate?: string;
   dict: Dictionary;
   locale: Locale;
+  now: number;
 }) {
   const target = parseEventDate(date)?.getTime();
-  const [remaining, setRemaining] = useState<RemainingTime | null>(null);
+  const endTarget = endDate ? parseEventDate(endDate)?.getTime() : undefined;
+  const [remaining, setRemaining] = useState<RemainingTime | null>(() =>
+    target === undefined ? null : getRemainingTime(target, endTarget, now)
+  );
 
   useEffect(() => {
     if (target === undefined) return;
     const update = () => {
-      const next = getRemainingTime(target);
+      const next = getRemainingTime(target, endTarget);
       setRemaining(next);
-      if (next.started) window.clearInterval(interval);
+      if (next.started && !next.inProgress) window.clearInterval(interval);
     };
     const interval = window.setInterval(update, 1000);
     update();
     return () => window.clearInterval(interval);
-  }, [target]);
+  }, [target, endTarget]);
 
   if (target === undefined) return null;
+  if (remaining?.inProgress) {
+    return <p className="mt-4 font-medium text-accent">{dict.events.eventInProgress}</p>;
+  }
   if (remaining?.started) {
     return <p className="text-accent font-medium">{dict.events.eventStarted}</p>;
   }

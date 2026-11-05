@@ -73,6 +73,7 @@ export function EventsListing({
           events={sections.upcoming}
           dict={dict}
           locale={locale}
+          now={now}
         />
         <div
           aria-hidden="true"
@@ -85,6 +86,7 @@ export function EventsListing({
           events={sections.past}
           dict={dict}
           locale={locale}
+          now={now}
         />
       </div>
       </motion.div>

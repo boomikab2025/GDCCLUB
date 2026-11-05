@@ -117,7 +117,13 @@ export function EventDetails({
             </span>
           </div>
           {eventIsUpcoming && (
-            <EventCountdown date={event.date} dict={dict} locale={locale} />
+            <EventCountdown
+              date={event.date}
+              endDate={event.endDate}
+              dict={dict}
+              locale={locale}
+              now={now}
+            />
           )}
           {isSafeRegistrationUrl(event.registrationUrl) && (
             <Button asChild variant="accent" size="lg" className="mt-8 gap-2">

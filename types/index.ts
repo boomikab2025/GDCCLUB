@@ -99,6 +99,7 @@ export interface Dictionary {
     registerNow: string;
     startsIn: string;
     eventStarted: string;
+    eventInProgress: string;
     noUpcoming: string;
     noPast: string;
     notFound: string;

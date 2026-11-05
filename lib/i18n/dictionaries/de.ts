@@ -47,6 +47,7 @@ const dictionary: Dictionary = {
     registerNow: "Jetzt anmelden",
     startsIn: "Eventbeginn in",
     eventStarted: "Dieses Event hat begonnen.",
+    eventInProgress: "Event läuft",
     noUpcoming: "Derzeit sind keine Events geplant. Schau bald wieder vorbei.",
     noPast: "Informationen zu vergangenen Events erscheinen hier.",
     notFound: "Dieses Event wurde nicht gefunden.",

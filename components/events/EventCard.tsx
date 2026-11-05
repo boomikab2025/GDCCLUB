@@ -15,11 +15,13 @@ export function EventCard({
   dict,
   locale,
   index,
+  now,
 }: {
   event: ClubEvent;
   dict: Dictionary;
   locale: Locale;
   index: number;
+  now: number;
 }) {
   const imageRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
@@ -96,7 +98,13 @@ export function EventCard({
             {event.shortDescription}
           </p>
           {event.status === "upcoming" && (
-            <EventCountdown date={event.date} dict={dict} locale={locale} />
+            <EventCountdown
+              date={event.date}
+              endDate={event.endDate}
+              dict={dict}
+              locale={locale}
+              now={now}
+            />
           )}
           <span className="inline-flex items-center gap-2 pt-1 text-sm font-semibold text-accent">
             {dict.events.viewEvent}

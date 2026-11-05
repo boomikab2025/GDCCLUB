@@ -12,6 +12,7 @@ export function EventSection({
   events,
   dict,
   locale,
+  now,
 }: {
   id: string;
   title: string;
@@ -19,6 +20,7 @@ export function EventSection({
   events: ClubEvent[];
   dict: Dictionary;
   locale: Locale;
+  now: number;
 }) {
   const reduceMotion = useReducedMotion();
 
@@ -51,6 +53,7 @@ export function EventSection({
               dict={dict}
               locale={locale}
               index={index}
+              now={now}
             />
           ))}
         </div>
