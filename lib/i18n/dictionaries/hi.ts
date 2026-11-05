@@ -4,7 +4,6 @@ const dictionary: Dictionary = {
   nav: {
     home: "होम",
     games: "गेम्स",
-    blog: "ब्लॉग",
     community: "कम्युनिटी",
     about: "हमारे बारे में",
     contact: "संपर्क",
@@ -25,6 +24,8 @@ const dictionary: Dictionary = {
     comingSoonDesc:
       "हम पहले रिलीज़ पर काम कर रहे हैं। अपडेट देखने के लिए जल्द वापस आएँ।",
     toBeReleased: "जल्द रिलीज़ होगा",
+    inDevelopment: "विकासाधीन",
+    released: "रिलीज़ हो चुका है",
     details: "विवरण देखें",
     buyNow: "अभी खरीदें",
     wishlist: "विशलिस्ट में जोड़ें",
@@ -33,18 +34,6 @@ const dictionary: Dictionary = {
     story: "कहानी",
     features: "विशेषताएँ",
     requirements: "सिस्टम आवश्यकताएँ",
-  },
-  blog: {
-    title: "डेव ब्लॉग",
-    subtitle: "स्टूडियो से अपडेट।",
-    comingSoon: "जल्द आ रहा है",
-    comingSoonDesc:
-      "डेव लॉग, डिज़ाइन नोट्स और रिलीज़ न्यूज़ यहाँ होंगे। अभी कुछ प्रकाशित नहीं।",
-    search: "लेख खोजें...",
-    categories: "श्रेणियाँ",
-    readMore: "और पढ़ें",
-    readTime: "मिनट पढ़ें",
-    latest: "नवीनतम पोस्ट",
   },
   community: {
     title: "कम्युनिटी",

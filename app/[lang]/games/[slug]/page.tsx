@@ -44,7 +44,14 @@ export default function GameDetailPage() {
     );
   }
 
-  const isComingSoon = game.status === "coming-soon";
+  const status = game.status ?? "released";
+  const isReleased = status === "released";
+  const statusLabel =
+    status === "released"
+      ? dict.games.released
+      : status === "coming-soon"
+        ? dict.games.toBeReleased
+        : dict.games.inDevelopment;
   const storeLinks = [
     { key: "Steam", href: game.links.steam },
     { key: "Epic Games", href: game.links.epic },
@@ -80,9 +87,7 @@ export default function GameDetailPage() {
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="flex flex-wrap gap-2 mb-4">
-              {isComingSoon && (
-                <Badge variant="default">{dict.games.toBeReleased}</Badge>
-              )}
+              <Badge variant="default">{statusLabel}</Badge>
               {game.genre.map((g) => (
                 <Badge key={g} variant="outline">
                   {g}
@@ -95,7 +100,7 @@ export default function GameDetailPage() {
             </p>
 
             <div className="flex flex-wrap items-center gap-6 text-sm">
-              {!isComingSoon && (
+              {isReleased && (
                 <div className="flex items-center gap-1">
                   <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                   <span className="font-bold text-lg">{game.rating}</span>
@@ -103,8 +108,8 @@ export default function GameDetailPage() {
               )}
               <div className="flex items-center gap-1 text-muted-foreground">
                 <Calendar className="h-4 w-4" />
-                {isComingSoon
-                  ? `${dict.games.toBeReleased}${
+                {!isReleased
+                  ? `${statusLabel}${
                       game.releaseYear > 0 ? ` · ${game.releaseYear}` : " · TBA"
                     }`
                   : game.releaseYear}
@@ -231,10 +236,10 @@ export default function GameDetailPage() {
           >
             <div className="motion-card p-6 rounded-xl border bg-card sticky top-24">
               <h3 className="font-bold text-lg mb-4">
-                {isComingSoon ? dict.games.toBeReleased : "Get the Game"}
+                {isReleased ? dict.games.buyNow : statusLabel}
               </h3>
 
-              {isComingSoon && (
+              {!isReleased && (
                 <p className="text-sm text-muted-foreground mb-4">
                   {dict.games.comingSoonDesc}
                 </p>
@@ -243,7 +248,7 @@ export default function GameDetailPage() {
               <div className="space-y-3">
                 {storeLinks.length === 0 ? (
                   <Button className="w-full" variant="outline" disabled>
-                    {dict.games.toBeReleased}
+                    {isReleased ? dict.games.buyNow : statusLabel}
                   </Button>
                 ) : (
                   storeLinks.map((link) => (

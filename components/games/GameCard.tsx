@@ -16,7 +16,14 @@ export function GameCard({ game }: GameCardProps) {
   const params = useParams();
   const lang = (params.lang as Locale) || "en";
   const dict = getDictionary(lang);
-  const isComingSoon = game.status === "coming-soon";
+  const status = game.status ?? "released";
+  const isReleased = status === "released";
+  const statusLabel =
+    status === "released"
+      ? dict.games.released
+      : status === "coming-soon"
+        ? dict.games.toBeReleased
+        : dict.games.inDevelopment;
 
   return (
     <Link href={`/${lang}/games/${game.slug}/`}>
@@ -32,19 +39,19 @@ export function GameCard({ game }: GameCardProps) {
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-accent/20 via-background to-background">
               <Gamepad2 className="h-12 w-12 text-accent/70 mb-2" />
-              <span className="text-xs text-muted-foreground">
-                {dict.games.comingSoon}
-              </span>
+              {!isReleased && (
+                <span className="text-xs text-muted-foreground">
+                  {statusLabel}
+                </span>
+              )}
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-          {isComingSoon && (
-            <div className="absolute top-3 left-3">
-              <Badge variant="default" className="backdrop-blur-sm">
-                {dict.games.toBeReleased}
-              </Badge>
-            </div>
-          )}
+          <div className="absolute top-3 left-3">
+            <Badge variant="default" className="backdrop-blur-sm">
+              {statusLabel}
+            </Badge>
+          </div>
           <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
             <div className="bg-accent text-accent-foreground p-2 rounded-sm border border-accent-light/40 shadow-[0_0_16px_rgba(212,175,55,0.25)]">
               <ArrowUpRight className="h-4 w-4" />
@@ -69,7 +76,7 @@ export function GameCard({ game }: GameCardProps) {
           </p>
 
           <div className="flex items-center justify-between text-sm">
-            {isComingSoon ? (
+            {!isReleased ? (
               <span className="text-xs font-medium text-accent">
                 {game.releaseYear > 0 ? game.releaseYear : "TBA"}
               </span>

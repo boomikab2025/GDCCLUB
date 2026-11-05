@@ -4,7 +4,6 @@ const dictionary: Dictionary = {
   nav: {
     home: "முகப்பு",
     games: "விளையாட்டுகள்",
-    blog: "வலைப்பதிவு",
     community: "சமூகம்",
     about: "எங்களைப் பற்றி",
     contact: "தொடர்பு",
@@ -25,6 +24,8 @@ const dictionary: Dictionary = {
     comingSoonDesc:
       "முதல் வெளியீடுகளில் வேலை செய்கிறோம். புதுப்பிப்புகளுக்கு விரைவில் மீண்டும் பாருங்கள்.",
     toBeReleased: "விரைவில் வெளியிடப்படும்",
+    inDevelopment: "உருவாக்கத்தில் உள்ளது",
+    released: "வெளியிடப்பட்டது",
     details: "விவரங்களைக் காண்க",
     buyNow: "இப்போது வாங்கு",
     wishlist: "விருப்பப்பட்டியலில் சேர்",
@@ -33,18 +34,6 @@ const dictionary: Dictionary = {
     story: "கதை",
     features: "சிறப்பம்சங்கள்",
     requirements: "கணினி தேவைகள்",
-  },
-  blog: {
-    title: "டெவ் வலைப்பதிவு",
-    subtitle: "ஸ்டுடியோவிலிருந்து புதுப்பிப்புகள்.",
-    comingSoon: "விரைவில்",
-    comingSoonDesc:
-      "டெவ் பதிவுகள், வடிவமைப்பு குறிப்புகள், வெளியீட்டு செய்திகள் இங்கே இருக்கும். இன்னும் எதுவும் வெளியிடப்படவில்லை.",
-    search: "கட்டுரைகளைத் தேடு...",
-    categories: "வகைகள்",
-    readMore: "மேலும் படிக்க",
-    readTime: "நிமிட படிப்பு",
-    latest: "சமீபத்திய இடுகைகள்",
   },
   community: {
     title: "சமூகம்",

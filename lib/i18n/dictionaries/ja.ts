@@ -4,7 +4,6 @@ const dictionary: Dictionary = {
   nav: {
     home: "ホーム",
     games: "ゲーム",
-    blog: "ブログ",
     community: "コミュニティ",
     about: "について",
     contact: "お問い合わせ",
@@ -25,6 +24,8 @@ const dictionary: Dictionary = {
     comingSoonDesc:
       "最初のリリースに向けて制作中です。最新情報をお待ちください。",
     toBeReleased: "近日リリース予定",
+    inDevelopment: "開発中",
+    released: "リリース済み",
     details: "詳細を見る",
     buyNow: "購入する",
     wishlist: "ウィッシュリスト",
@@ -33,18 +34,6 @@ const dictionary: Dictionary = {
     story: "ストーリー",
     features: "特徴",
     requirements: "動作環境",
-  },
-  blog: {
-    title: "開発ブログ",
-    subtitle: "スタジオからの更新。",
-    comingSoon: "近日公開",
-    comingSoonDesc:
-      "開発ログやデザインノート、リリース情報はここに。まだ記事はありません。",
-    search: "記事を検索...",
-    categories: "カテゴリ",
-    readMore: "続きを読む",
-    readTime: "分で読める",
-    latest: "最新の投稿",
   },
   community: {
     title: "コミュニティ",

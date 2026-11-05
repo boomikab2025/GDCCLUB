@@ -4,7 +4,6 @@ const dictionary: Dictionary = {
   nav: {
     home: "Inicio",
     games: "Juegos",
-    blog: "Blog",
     community: "Comunidad",
     about: "Nosotros",
     contact: "Contacto",
@@ -25,6 +24,8 @@ const dictionary: Dictionary = {
     comingSoonDesc:
       "Estamos trabajando en los primeros lanzamientos. Vuelve pronto para ver novedades.",
     toBeReleased: "Se publicará pronto",
+    inDevelopment: "En desarrollo",
+    released: "Publicado",
     details: "Ver detalles",
     buyNow: "Comprar",
     wishlist: "Lista de deseos",
@@ -33,18 +34,6 @@ const dictionary: Dictionary = {
     story: "Historia",
     features: "Características",
     requirements: "Requisitos del sistema",
-  },
-  blog: {
-    title: "Blog de desarrollo",
-    subtitle: "Novedades del estudio.",
-    comingSoon: "Próximamente",
-    comingSoonDesc:
-      "Devlogs, notas de diseño y noticias de lanzamiento vivirán aquí. Aún no hay publicaciones.",
-    search: "Buscar artículos...",
-    categories: "Categorías",
-    readMore: "Leer más",
-    readTime: "min de lectura",
-    latest: "Últimas entradas",
   },
   community: {
     title: "Comunidad",

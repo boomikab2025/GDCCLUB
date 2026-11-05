@@ -1,6 +1,6 @@
 export type Locale = "en" | "ta" | "ru" | "hi" | "zh" | "ja" | "de" | "es";
 
-export type GameStatus = "released" | "coming-soon";
+export type GameStatus = "released" | "coming-soon" | "in-development";
 
 export interface Game {
   id: string;
@@ -36,20 +36,6 @@ export interface Game {
   awards?: string[];
 }
 
-export interface BlogPost {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  category: string;
-  author: string;
-  date: string;
-  readTime: string;
-  coverImage: string;
-  tags: string[];
-}
-
 export interface TeamMember {
   id: string;
   name: string;
@@ -72,7 +58,6 @@ export interface Dictionary {
   nav: {
     home: string;
     games: string;
-    blog: string;
     community: string;
     about: string;
     contact: string;
@@ -91,6 +76,8 @@ export interface Dictionary {
     comingSoon: string;
     comingSoonDesc: string;
     toBeReleased: string;
+    inDevelopment: string;
+    released: string;
     details: string;
     buyNow: string;
     wishlist: string;
@@ -99,17 +86,6 @@ export interface Dictionary {
     story: string;
     features: string;
     requirements: string;
-  };
-  blog: {
-    title: string;
-    subtitle: string;
-    comingSoon: string;
-    comingSoonDesc: string;
-    search: string;
-    categories: string;
-    readMore: string;
-    readTime: string;
-    latest: string;
   };
   community: {
     title: string;

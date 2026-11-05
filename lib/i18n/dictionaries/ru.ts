@@ -4,7 +4,6 @@ const dictionary: Dictionary = {
   nav: {
     home: "Главная",
     games: "Игры",
-    blog: "Блог",
     community: "Сообщество",
     about: "О нас",
     contact: "Контакты",
@@ -25,6 +24,8 @@ const dictionary: Dictionary = {
     comingSoonDesc:
       "Мы работаем над первыми релизами. Загляните позже, чтобы узнать новости.",
     toBeReleased: "Скоро в релизе",
+    inDevelopment: "В разработке",
+    released: "Вышла",
     details: "Подробнее",
     buyNow: "Купить",
     wishlist: "В список желаний",
@@ -33,18 +34,6 @@ const dictionary: Dictionary = {
     story: "Сюжет",
     features: "Особенности",
     requirements: "Системные требования",
-  },
-  blog: {
-    title: "Блог разработки",
-    subtitle: "Новости студии.",
-    comingSoon: "Скоро",
-    comingSoonDesc:
-      "Девлоги, заметки по дизайну и новости релизов будут здесь. Пока публикаций нет.",
-    search: "Поиск статей...",
-    categories: "Категории",
-    readMore: "Читать далее",
-    readTime: "мин чтения",
-    latest: "Последние записи",
   },
   community: {
     title: "Сообщество",
