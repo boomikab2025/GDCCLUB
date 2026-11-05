@@ -56,7 +56,7 @@ export function LatestGames() {
             </p>
             <Link href={`/${lang}/community/`}>
               <Button variant="accent" className="gap-2">
-                {dict.community.discordCta}
+                {dict.community.title}
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>

@@ -63,7 +63,7 @@ export default function GamesPage() {
             {dict.games.comingSoonDesc}
           </p>
           <Link href={`/${lang}/community/`}>
-            <Button variant="accent">{dict.community.discordCta}</Button>
+            <Button variant="accent">{dict.community.title}</Button>
           </Link>
         </motion.div>
       ) : (

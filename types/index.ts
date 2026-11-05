@@ -54,6 +54,7 @@ export interface TeamMember {
   id: string;
   name: string;
   role: string;
+  category: "coordinator" | "team-lead" | "member";
   /** Handle / nickname shown under the name */
   tagname?: string;
   /** GitHub profile URL */
@@ -113,10 +114,10 @@ export interface Dictionary {
   community: {
     title: string;
     description: string;
-    discordCta: string;
-    discordDesc: string;
-    joinDiscord: string;
-    linkSoon: string;
+    coordinator: string;
+    teamLead: string;
+    members: string;
+    membersComingSoon: string;
   };
   about: {
     title: string;

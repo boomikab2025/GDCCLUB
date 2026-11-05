@@ -3,18 +3,15 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { MessageCircle, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import socialLinks from "@/data/social.json";
 
 export function CommunityTeaser() {
   const params = useParams();
   const lang = (params.lang as Locale) || "en";
   const dict = getDictionary(lang);
-  const discordReady = socialLinks.discord !== "#";
-
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="absolute inset-0 bg-accent/5" />
@@ -47,23 +44,6 @@ export function CommunityTeaser() {
                 {dict.community.title}
               </Button>
             </Link>
-            {discordReady ? (
-              <a
-                href={socialLinks.discord}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button size="lg" variant="accent" className="gap-2">
-                  <MessageCircle className="h-4 w-4" />
-                  {dict.community.joinDiscord}
-                </Button>
-              </a>
-            ) : (
-              <Button size="lg" variant="accent" className="gap-2" disabled>
-                <MessageCircle className="h-4 w-4" />
-                {dict.community.linkSoon}
-              </Button>
-            )}
           </motion.div>
         </div>
       </div>

@@ -87,7 +87,7 @@ export default function ContactPage() {
                     <div className="flex-1">
                       <div className="font-medium">{label}</div>
                       <div className="text-xs text-muted-foreground">
-                        {dict.community.linkSoon}
+                        {dict.common.comingSoon}
                       </div>
                     </div>
                   </div>

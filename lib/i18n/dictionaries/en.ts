@@ -23,7 +23,7 @@ const dictionary: Dictionary = {
     subtitle: "What we’re making and what’s next.",
     comingSoon: "Coming soon",
     comingSoonDesc:
-      "We’re hard at work on our first releases. Check back soon — or join Discord for early news.",
+      "We’re hard at work on our first releases. Check back soon for updates.",
     toBeReleased: "To be released soon",
     details: "View Details",
     buyNow: "Buy Now",
@@ -49,11 +49,11 @@ const dictionary: Dictionary = {
   community: {
     title: "Community",
     description:
-      "Hang out with the GDCVITC team and other players. News, feedback, and playtests start on Discord.",
-    discordCta: "Join Our Discord",
-    discordDesc: "Our Discord invite will be posted here soon.",
-    joinDiscord: "Join Discord",
-    linkSoon: "Link coming soon",
+      "Connect with the GDCVITC team and other players.",
+    coordinator: "Co-ordinator",
+    teamLead: "Team Lead",
+    members: "Members",
+    membersComingSoon: "Member profiles will be added soon.",
   },
   about: {
     title: "Where Ideas Become Playable Worlds.",

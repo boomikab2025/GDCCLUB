@@ -23,7 +23,7 @@ const dictionary: Dictionary = {
     subtitle: "Что мы делаем и что дальше.",
     comingSoon: "Скоро",
     comingSoonDesc:
-      "Мы работаем над первыми релизами. Загляните позже — или зайдите в Discord за новостями.",
+      "Мы работаем над первыми релизами. Загляните позже, чтобы узнать новости.",
     toBeReleased: "Скоро в релизе",
     details: "Подробнее",
     buyNow: "Купить",
@@ -49,11 +49,11 @@ const dictionary: Dictionary = {
   community: {
     title: "Сообщество",
     description:
-      "Общайтесь с командой GDCVITC и другими игроками. Новости, отзывы и плейтесты — в Discord.",
-    discordCta: "Наш Discord",
-    discordDesc: "Ссылка-приглашение скоро появится здесь.",
-    joinDiscord: "Войти в Discord",
-    linkSoon: "Ссылка скоро",
+      "Общайтесь с командой GDCVITC и другими игроками.",
+    coordinator: "Координатор",
+    teamLead: "Руководитель команды",
+    members: "Участники",
+    membersComingSoon: "Профили участников скоро появятся.",
   },
   about: {
     title: "О Game Development Club, VIT Chennai",

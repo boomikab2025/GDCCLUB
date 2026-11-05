@@ -5,7 +5,6 @@ import { useParams } from "next/navigation";
 import { Heart, Sparkles, Target, Users } from "lucide-react";
 import { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import team from "@/data/member.json";
 import { Logo } from "@/components/layout/Logo";
 import { KineticHeading } from "@/components/KineticHeading";
 
@@ -110,91 +109,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div>
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-3xl font-bold text-center mb-12"
-        >
-          {dict.about.team}
-        </motion.h2>
-        {team.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="rounded-2xl border bg-card p-12 text-center text-muted-foreground"
-          >
-            {dict.about.teamSoon}
-          </motion.div>
-        ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {team.map((member, index) => {
-              const card = (
-                <>
-                  <div className="aspect-square rounded-2xl overflow-hidden mb-4 bg-muted flex items-center justify-center ring-1 ring-border">
-                    {member.image ? (
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : (
-                      <span className="text-3xl font-bold text-accent">
-                        {member.name.charAt(0)}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="font-bold text-lg group-hover:text-accent transition-colors">
-                    {member.name}
-                  </h3>
-                  {member.tagname && (
-                    <p className="text-xs text-accent/90 font-medium mt-0.5">
-                      @{member.tagname}
-                    </p>
-                  )}
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {member.role}
-                  </p>
-                </>
-              );
-
-              return (
-                <motion.div
-                  key={member.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 160,
-                    damping: 20,
-                    delay: index * 0.08,
-                  }}
-                  className="motion-card text-center group rounded-2xl"
-                >
-                  {member.github ? (
-                    <a
-                      href={member.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-2xl"
-                    >
-                      {card}
-                    </a>
-                  ) : (
-                    card
-                  )}
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
-      </div>
     </div>
   );
 }

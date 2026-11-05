@@ -4,6 +4,7 @@
     "name": "Alex Placeholder",
     "tagname": "alex_dev",
     "role": "Game Developer",
+    "category": "coordinator",
     "github": "https://github.com/example",
     "image": "https://github.com/example.png?size=400"
   },
@@ -12,6 +13,7 @@
     "name": "Sam Sample",
     "tagname": "pixel_sam",
     "role": "2D Artist",
+    "category": "team-lead",
     "github": "https://github.com/octocat",
     "image": "https://github.com/octocat.png?size=400"
   }

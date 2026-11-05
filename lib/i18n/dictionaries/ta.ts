@@ -23,7 +23,7 @@ const dictionary: Dictionary = {
     subtitle: "நாங்கள் உருவாக்குவதும் அடுத்து வருவதும்.",
     comingSoon: "விரைவில்",
     comingSoonDesc:
-      "முதல் வெளியீடுகளில் வேலை செய்கிறோம். விரைவில் மீண்டும் பாருங்கள் — அல்லது முன்செய்திக்கு Discord இல் சேருங்கள்.",
+      "முதல் வெளியீடுகளில் வேலை செய்கிறோம். புதுப்பிப்புகளுக்கு விரைவில் மீண்டும் பாருங்கள்.",
     toBeReleased: "விரைவில் வெளியிடப்படும்",
     details: "விவரங்களைக் காண்க",
     buyNow: "இப்போது வாங்கு",
@@ -49,11 +49,11 @@ const dictionary: Dictionary = {
   community: {
     title: "சமூகம்",
     description:
-      "GDCVITC குழுவுடனும் பிற வீரர்களுடனும் இணைங்கள். செய்திகள், கருத்து, பிளேடெஸ்ட் Discord இல் தொடங்கும்.",
-    discordCta: "எங்கள் Discord இல் சேருங்கள்",
-    discordDesc: "Discord அழைப்பு இணைப்பு விரைவில் இங்கே வரும்.",
-    joinDiscord: "Discord இல் சேர்",
-    linkSoon: "அழைப்பு இணைப்பு விரைவில்",
+      "GDCVITC குழுவுடனும் பிற வீரர்களுடனும் இணையுங்கள்.",
+    coordinator: "ஒருங்கிணைப்பாளர்",
+    teamLead: "குழுத் தலைவர்",
+    members: "உறுப்பினர்கள்",
+    membersComingSoon: "உறுப்பினர் சுயவிவரங்கள் விரைவில் சேர்க்கப்படும்.",
   },
   about: {
     title: "Game Development Club, VIT Chennai பற்றி",
