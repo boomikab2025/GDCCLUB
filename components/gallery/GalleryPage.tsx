@@ -14,24 +14,11 @@ import type { Locale } from "@/types";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import type { GalleryEventView, GalleryPhotoView } from "@/types/gallery";
 
-interface GallerySlide extends GalleryPhotoView {
-  eventTitle: string;
-}
-
-function formatGalleryDate(value: string, locale: Locale): string {
-  const date = new Date(value);
-  if (!Number.isFinite(date.getTime())) return value;
-  return new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "Asia/Kolkata",
-  }).format(date);
-}
+type GallerySlide = GalleryPhotoView;
 
 function PhotoUnavailable({ label }: { label: string }) {
   return (
-    <div className="flex h-full min-h-40 flex-col items-center justify-center gap-3 bg-[radial-gradient(ellipse_at_50%_35%,rgba(212,175,55,0.12),transparent_58%),linear-gradient(135deg,#0b0b0a,#19160e)] px-4 text-center text-accent/80">
+    <div className="flex h-full flex-col items-center justify-center gap-3 bg-[radial-gradient(ellipse_at_50%_35%,rgba(212,175,55,0.12),transparent_58%),linear-gradient(135deg,#0b0b0a,#19160e)] px-4 text-center text-accent/80">
       <ImageOff aria-hidden="true" className="h-8 w-8" strokeWidth={1.2} />
       <span className="text-xs tracking-wide text-foreground/65">{label}</span>
     </div>
@@ -42,10 +29,12 @@ function GalleryImage({
   photo,
   label,
   sizes,
+  fit,
 }: {
   photo: GalleryPhotoView;
   label: string;
   sizes: string;
+  fit: "cover" | "contain";
 }) {
   const [failed, setFailed] = useState(false);
 
@@ -57,44 +46,64 @@ function GalleryImage({
       alt={photo.alt}
       fill
       sizes={sizes}
-      className="object-contain"
+      className={
+        fit === "cover"
+          ? "object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none"
+          : "object-contain"
+      }
       onError={() => setFailed(true)}
     />
   );
 }
 
+function getPhotoLayoutClass(index: number, photoCount: number): string {
+  const groupPosition = index % 3;
+  const groupSize = Math.min(3, photoCount - (index - groupPosition));
+
+  if (groupSize === 1) {
+    return "col-span-2 aspect-[16/10] sm:col-span-6 sm:row-span-1 sm:aspect-auto lg:col-span-12";
+  }
+
+  if (groupSize === 2) {
+    return "col-span-1 aspect-[4/3] sm:col-span-3 sm:row-span-1 sm:aspect-auto lg:col-span-6";
+  }
+
+  if (groupPosition === 0) {
+    return "col-span-2 aspect-[16/10] sm:col-span-4 sm:row-span-2 sm:aspect-auto lg:col-span-7";
+  }
+
+  return "col-span-1 aspect-[4/3] sm:col-span-2 sm:row-span-1 sm:aspect-auto lg:col-span-5";
+}
+
 function GalleryPhotoFrame({
   photo,
   label,
+  layoutClassName,
   onOpen,
 }: {
   photo: GalleryPhotoView;
   label: string;
+  layoutClassName: string;
   onOpen: () => void;
 }) {
   return (
-    <figure className="group min-w-0">
+    <figure className={`group min-w-0 ${layoutClassName}`}>
       <button
         type="button"
         onClick={onOpen}
         aria-label={`${photo.caption}: ${photo.alt}`}
-        className="block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+        className="block h-full w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-background"
       >
-        <div className="rounded-sm border border-accent/20 bg-[#e8e1d1] p-2 shadow-[0_12px_34px_rgba(0,0,0,0.32)] transition-transform duration-300 group-hover:-translate-y-1 sm:p-3">
-          <div className="relative aspect-[4/3] overflow-hidden bg-[#11100d]">
-            <GalleryImage
-              photo={photo}
-              label={label}
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            />
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 border border-white/10"
-            />
-          </div>
+        <div className="relative h-full min-h-0 overflow-hidden rounded-xl bg-[#11100d] shadow-[0_12px_34px_rgba(0,0,0,0.32)] ring-1 ring-white/10 transition-transform duration-300 ease-out group-hover:-translate-y-1 motion-reduce:transition-none">
+          <GalleryImage
+            photo={photo}
+            label={label}
+            fit="contain"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 67vw, 58vw"
+          />
         </div>
       </button>
-      <figcaption className="mt-3 px-1 text-sm leading-relaxed text-muted-foreground sm:text-base">
+      <figcaption className="sr-only">
         {photo.caption}
       </figcaption>
     </figure>
@@ -114,13 +123,7 @@ export function GalleryPage({
   const dialogRef = useRef<HTMLDivElement>(null);
   const restoreFocusRef = useRef<HTMLElement | null>(null);
   const slides = useMemo<GallerySlide[]>(
-    () =>
-      events.flatMap((event) =>
-        event.photos.map((photo) => ({
-          ...photo,
-          eventTitle: event.eventTitle,
-        }))
-      ),
+    () => events.flatMap((event) => event.photos),
     [events]
   );
   const isLightboxOpen = activeIndex !== null;
@@ -200,57 +203,20 @@ export function GalleryPage({
       </header>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {events.length === 0 ? (
+        {slides.length === 0 ? (
           <p className="py-20 text-center text-muted-foreground">
             {dict.gallery.noEvents}
           </p>
         ) : (
-          <div className="divide-y divide-accent/15">
-            {events.map((event) => (
-              <section
-                key={event.eventId}
-                aria-labelledby={`gallery-${event.eventId}`}
-                className="py-12 sm:py-16"
-              >
-                <div className="mb-8 grid gap-5 md:grid-cols-[minmax(0,1fr)_minmax(16rem,0.7fr)] md:items-end">
-                  <div>
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-accent">
-                      {formatGalleryDate(event.eventDate, locale)}
-                    </p>
-                    <h2
-                      id={`gallery-${event.eventId}`}
-                      className="text-2xl font-bold tracking-tight sm:text-3xl"
-                    >
-                      {event.eventTitle}
-                    </h2>
-                    <p className="mt-2 text-sm text-accent">{event.category}</p>
-                  </div>
-                  <p className="max-w-2xl leading-relaxed text-muted-foreground md:justify-self-end">
-                    {event.description}
-                  </p>
-                </div>
-                {event.photos.length > 0 ? (
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:gap-x-6 lg:grid-cols-3 2xl:grid-cols-4">
-                    {event.photos.map((photo) => {
-                      const index = slides.findIndex(
-                        (slide) => slide.id === photo.id
-                      );
-                      return (
-                        <GalleryPhotoFrame
-                          key={photo.id}
-                          photo={photo}
-                          label={dict.gallery.photoUnavailable}
-                          onOpen={() => openPhoto(index)}
-                        />
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <p className="py-8 text-muted-foreground">
-                    {dict.gallery.noEvents}
-                  </p>
-                )}
-              </section>
+          <div className="grid grid-cols-2 gap-3 py-10 sm:grid-cols-6 sm:gap-4 sm:[grid-auto-rows:clamp(8rem,14vw,11rem)] lg:grid-cols-12 lg:gap-5 lg:[grid-auto-rows:clamp(12rem,16vw,15rem)]">
+            {slides.map((photo, index) => (
+              <GalleryPhotoFrame
+                key={photo.id}
+                photo={photo}
+                label={dict.gallery.photoUnavailable}
+                layoutClassName={getPhotoLayoutClass(index, slides.length)}
+                onOpen={() => openPhoto(index)}
+              />
             ))}
           </div>
         )}
@@ -295,22 +261,20 @@ export function GalleryPage({
               <ChevronLeft aria-hidden="true" className="h-6 w-6" />
             </button>
             <div className="flex max-h-full w-full max-w-6xl flex-col items-center justify-center">
-              <div className="flex min-h-0 w-full flex-1 items-center justify-center rounded-sm border border-accent/25 bg-[#e8e1d1] p-2 sm:p-4">
-                <div className="relative h-[min(72svh,48rem)] w-full bg-[#11100d]">
+              <div className="flex min-h-0 w-full flex-1 items-center justify-center">
+                <div className="relative h-[min(78svh,56rem)] w-full max-w-6xl bg-black/30">
                   <GalleryImage
                     key={activeSlide.id}
                     photo={activeSlide}
                     label={dict.gallery.photoUnavailable}
                     sizes="(max-width: 768px) 90vw, 80vw"
+                    fit="contain"
                   />
                 </div>
               </div>
               <div className="mt-4 max-w-3xl text-center">
                 <p className="text-sm font-medium text-foreground sm:text-base">
                   {activeSlide.caption}
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {activeSlide.eventTitle}
                 </p>
               </div>
             </div>
