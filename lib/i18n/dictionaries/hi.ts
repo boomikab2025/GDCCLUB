@@ -5,6 +5,7 @@ const dictionary: Dictionary = {
     home: "होम",
     games: "गेम्स",
     events: "इवेंट्स",
+    gallery: "गैलरी",
     community: "कम्युनिटी",
     about: "हमारे बारे में",
     contact: "संपर्क",
@@ -59,6 +60,15 @@ const dictionary: Dictionary = {
     seconds: "सेकंड",
     dateTba: "तारीख की घोषणा बाद में होगी",
     gallery: "इवेंट गैलरी",
+  },
+  gallery: {
+    title: "गैलरी",
+    description: "GDCVITC इवेंट्स के पल और यादें।",
+    noEvents: "इवेंट की तस्वीरें जोड़े जाने पर यहाँ दिखाई देंगी।",
+    photoUnavailable: "तस्वीर उपलब्ध नहीं है",
+    closeLightbox: "फोटो व्यूअर बंद करें",
+    previousPhoto: "पिछली तस्वीर",
+    nextPhoto: "अगली तस्वीर",
   },
   community: {
     title: "कम्युनिटी",

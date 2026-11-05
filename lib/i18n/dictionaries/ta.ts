@@ -5,6 +5,7 @@ const dictionary: Dictionary = {
     home: "முகப்பு",
     games: "விளையாட்டுகள்",
     events: "நிகழ்வுகள்",
+    gallery: "படத்தொகுப்பு",
     community: "சமூகம்",
     about: "எங்களைப் பற்றி",
     contact: "தொடர்பு",
@@ -59,6 +60,15 @@ const dictionary: Dictionary = {
     seconds: "வினாடிகள்",
     dateTba: "தேதி பின்னர் அறிவிக்கப்படும்",
     gallery: "நிகழ்வு படத்தொகுப்பு",
+  },
+  gallery: {
+    title: "படத்தொகுப்பு",
+    description: "GDCVITC நிகழ்வுகளின் தருணங்களும் நினைவுகளும்.",
+    noEvents: "நிகழ்வு புகைப்படங்கள் சேர்க்கப்படும்போது இங்கே தோன்றும்.",
+    photoUnavailable: "புகைப்படம் கிடைக்கவில்லை",
+    closeLightbox: "புகைப்படக் காட்சியை மூடு",
+    previousPhoto: "முந்தைய புகைப்படம்",
+    nextPhoto: "அடுத்த புகைப்படம்",
   },
   community: {
     title: "சமூகம்",

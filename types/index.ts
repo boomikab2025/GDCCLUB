@@ -59,6 +59,7 @@ export interface Dictionary {
     home: string;
     games: string;
     events: string;
+    gallery: string;
     community: string;
     about: string;
     contact: string;
@@ -111,6 +112,15 @@ export interface Dictionary {
     seconds: string;
     dateTba: string;
     gallery: string;
+  };
+  gallery: {
+    title: string;
+    description: string;
+    noEvents: string;
+    photoUnavailable: string;
+    closeLightbox: string;
+    previousPhoto: string;
+    nextPhoto: string;
   };
   community: {
     title: string;

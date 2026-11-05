@@ -5,6 +5,7 @@ const dictionary: Dictionary = {
     home: "Главная",
     games: "Игры",
     events: "События",
+    gallery: "Галерея",
     community: "Сообщество",
     about: "О нас",
     contact: "Контакты",
@@ -59,6 +60,15 @@ const dictionary: Dictionary = {
     seconds: "Секунды",
     dateTba: "Дата будет объявлена",
     gallery: "Фотографии события",
+  },
+  gallery: {
+    title: "Галерея",
+    description: "Моменты и воспоминания с мероприятий GDCVITC.",
+    noEvents: "Здесь появятся фотографии мероприятий.",
+    photoUnavailable: "Фото недоступно",
+    closeLightbox: "Закрыть просмотр фото",
+    previousPhoto: "Предыдущее фото",
+    nextPhoto: "Следующее фото",
   },
   community: {
     title: "Сообщество",

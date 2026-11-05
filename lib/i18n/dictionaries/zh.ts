@@ -5,6 +5,7 @@ const dictionary: Dictionary = {
     home: "首页",
     games: "游戏",
     events: "活动",
+    gallery: "画廊",
     community: "社区",
     about: "关于",
     contact: "联系",
@@ -57,6 +58,15 @@ const dictionary: Dictionary = {
     seconds: "秒",
     dateTba: "日期待定",
     gallery: "活动照片",
+  },
+  gallery: {
+    title: "活动画廊",
+    description: "记录 GDCVITC 活动中的精彩时刻与回忆。",
+    noEvents: "活动照片添加后将在这里显示。",
+    photoUnavailable: "照片暂不可用",
+    closeLightbox: "关闭照片查看器",
+    previousPhoto: "上一张照片",
+    nextPhoto: "下一张照片",
   },
   community: {
     title: "社区",

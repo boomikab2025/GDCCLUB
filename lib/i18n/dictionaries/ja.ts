@@ -5,6 +5,7 @@ const dictionary: Dictionary = {
     home: "ホーム",
     games: "ゲーム",
     events: "イベント",
+    gallery: "ギャラリー",
     community: "コミュニティ",
     about: "について",
     contact: "お問い合わせ",
@@ -59,6 +60,15 @@ const dictionary: Dictionary = {
     seconds: "秒",
     dateTba: "日程は後日発表",
     gallery: "イベントギャラリー",
+  },
+  gallery: {
+    title: "イベントギャラリー",
+    description: "GDCVITCのイベントで生まれた瞬間や思い出。",
+    noEvents: "イベント写真は追加されるとここに表示されます。",
+    photoUnavailable: "写真を利用できません",
+    closeLightbox: "写真ビューアを閉じる",
+    previousPhoto: "前の写真",
+    nextPhoto: "次の写真",
   },
   community: {
     title: "コミュニティ",
