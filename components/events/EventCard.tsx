@@ -3,7 +3,16 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { CalendarDays, MapPin, Sparkles } from "lucide-react";
+import {
+  CalendarDays,
+  Gamepad2,
+  MapPin,
+  Palette,
+  Sparkles,
+  Trophy,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import type { Dictionary, Locale } from "@/types";
 import type { ClubEvent } from "@/types/event";
 import { EventCountdown } from "./EventCountdown";
@@ -33,6 +42,18 @@ export function EventCard({
   const { openEvent } = useEventTransition();
   const formattedDate = formatEventDateRange(event.date, event.endDate, locale);
   const eventIsUpcoming = isEventUpcoming(event, now);
+  const normalizedCategory = event.category.toLowerCase();
+  const CategoryIcon: LucideIcon =
+    normalizedCategory.split(/[^a-z]+/).includes("art") ||
+    normalizedCategory.includes("artwork")
+      ? Palette
+      : normalizedCategory.includes("tournament") ||
+          normalizedCategory.includes("competition")
+        ? Trophy
+        : normalizedCategory.includes("community") ||
+            normalizedCategory.includes("network")
+          ? Users
+          : Gamepad2;
 
   return (
     <motion.article
@@ -69,8 +90,21 @@ export function EventCard({
               />
             </motion.div>
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Sparkles aria-hidden="true" className="h-12 w-12 text-accent/70" />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 overflow-hidden bg-[radial-gradient(ellipse_at_65%_25%,rgba(212,175,55,0.17),transparent_48%),linear-gradient(135deg,#050505_0%,#11100b_56%,#1d1708_100%)]"
+            >
+              <div className="absolute inset-0 flex items-center justify-center text-accent/25">
+                <CategoryIcon
+                  className="h-16 w-16 sm:h-20 sm:w-20"
+                  strokeWidth={0.9}
+                />
+              </div>
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent" />
+              <Sparkles
+                aria-hidden="true"
+                className="absolute bottom-4 right-4 h-4 w-4 text-accent/70"
+              />
             </div>
           )}
           <div className="absolute left-4 top-4">

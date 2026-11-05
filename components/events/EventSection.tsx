@@ -45,16 +45,28 @@ export function EventSection({
           <p className="mx-auto max-w-xl text-muted-foreground">{emptyMessage}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div
+          className={
+            events.length === 1
+              ? "grid grid-cols-1 justify-items-center"
+              : events.length === 2
+                ? "mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2"
+                : "grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"
+          }
+        >
           {events.map((event, index) => (
-            <EventCard
+            <div
               key={event.id}
-              event={event}
-              dict={dict}
-              locale={locale}
-              index={index}
-              now={now}
-            />
+              className={events.length === 1 ? "w-full max-w-2xl" : undefined}
+            >
+              <EventCard
+                event={event}
+                dict={dict}
+                locale={locale}
+                index={index}
+                now={now}
+              />
+            </div>
           ))}
         </div>
       )}

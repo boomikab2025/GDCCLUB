@@ -64,7 +64,7 @@ export function EventCountdown({
     const update = () => {
       const next = getRemainingTime(target, endTarget);
       setRemaining(next);
-      if (next.started && !next.inProgress) window.clearInterval(interval);
+      if (next.started) window.clearInterval(interval);
     };
     const interval = window.setInterval(update, 1000);
     update();
@@ -94,16 +94,26 @@ export function EventCountdown({
       role="timer"
       aria-label={`${dict.events.startsIn}: ${formatted}`}
       lang={locale}
-      className="mt-4"
+      className="mt-3 rounded-lg border border-accent/15 bg-black/20 px-3 py-2"
     >
-      <p className="text-xs uppercase tracking-[0.2em] text-accent mb-2">
+      <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent sm:text-xs">
         {dict.events.startsIn}
       </p>
-      <div aria-hidden="true" className="flex flex-wrap gap-x-2 gap-y-1 font-mono text-sm sm:text-base">
-        {units.map(({ value, label }, index) => (
-          <span key={label}>
-            {String(value ?? 0).padStart(2, "0")} {label}
-            {index < units.length - 1 ? " :" : ""}
+      <div
+        aria-hidden="true"
+        className="grid grid-cols-4 gap-1.5 font-mono text-center"
+      >
+        {units.map(({ value, label }) => (
+          <span
+            key={label}
+            className="flex min-w-0 flex-col items-center rounded-md bg-accent/5 px-1 py-1"
+          >
+            <span className="text-sm font-semibold leading-5 text-foreground sm:text-base">
+              {String(value ?? 0).padStart(2, "0")}
+            </span>
+            <span className="truncate text-[9px] leading-3 text-muted-foreground sm:text-[10px]">
+              {label}
+            </span>
           </span>
         ))}
       </div>
