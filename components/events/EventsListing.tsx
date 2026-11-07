@@ -40,7 +40,7 @@ export function EventsListing({
     >
       <section
         aria-labelledby="events-title"
-        className="relative flex min-h-[36rem] items-center overflow-hidden border-b border-accent/10 bg-[radial-gradient(ellipse_at_50%_10%,rgba(212,175,55,0.12),transparent_58%)] px-4 py-20 sm:px-6 lg:px-8"
+        className="relative flex min-h-[36rem] items-center overflow-hidden border-b border-accent/10 bg-[radial-gradient(ellipse_at_50%_10%,rgba(59,130,246,0.18),transparent_58%)] px-4 py-20 sm:px-6 lg:px-8"
       >
         <EventParticles />
         <motion.div
@@ -65,25 +65,22 @@ export function EventsListing({
         </motion.div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
         <EventSection
-          id="upcoming-events"
-          title={dict.events.upcoming}
-          emptyMessage={dict.events.noUpcoming}
-          events={sections.upcoming}
-          dict={dict}
-          locale={locale}
-          now={now}
-        />
-        <div
-          aria-hidden="true"
-          className="h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent"
-        />
-        <EventSection
-          id="past-events"
-          title={dict.events.past}
-          emptyMessage={dict.events.noPast}
-          events={sections.past}
+          groups={[
+            {
+              id: "upcoming-events",
+              title: dict.events.upcoming,
+              emptyMessage: dict.events.noUpcoming,
+              events: sections.upcoming,
+            },
+            {
+              id: "past-events",
+              title: dict.events.past,
+              emptyMessage: dict.events.noPast,
+              events: sections.past,
+            },
+          ]}
           dict={dict}
           locale={locale}
           now={now}

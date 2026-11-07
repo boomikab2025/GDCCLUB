@@ -94,7 +94,7 @@ export function EventDetails({
         ) : (
           <div
             aria-hidden="true"
-            className="absolute inset-0 overflow-hidden bg-[radial-gradient(ellipse_at_65%_25%,rgba(212,175,55,0.17),transparent_48%),linear-gradient(135deg,#050505_0%,#11100b_56%,#1d1708_100%)]"
+            className="absolute inset-0 overflow-hidden bg-[radial-gradient(ellipse_at_65%_25%,rgba(59,130,246,0.24),transparent_48%),linear-gradient(135deg,#05070d_0%,#0b1220_56%,#102038_100%)]"
           >
             <div className="absolute left-1/2 top-[12%] -translate-x-1/2 text-accent/20">
               <CategoryIcon

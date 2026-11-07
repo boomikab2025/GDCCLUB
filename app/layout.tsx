@@ -9,7 +9,7 @@ const outfit = Outfit({
   variable: "--font-sans",
 });
 
-/** Elegant display face — black & gold / luxury studio feel */
+/** Elegant display face — navy and blue studio feel */
 const cinzel = Cinzel({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],

@@ -53,7 +53,7 @@ export function GameCard({ game }: GameCardProps) {
             </Badge>
           </div>
           <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="bg-accent text-accent-foreground p-2 rounded-sm border border-accent-light/40 shadow-[0_0_16px_rgba(212,175,55,0.25)]">
+            <div className="bg-accent text-accent-foreground p-2 rounded-sm border border-accent-light/40 shadow-[0_0_16px_rgba(59,130,246,0.3)]">
               <ArrowUpRight className="h-4 w-4" />
             </div>
           </div>

@@ -32,18 +32,47 @@ export function parseEventDate(value: string): Date | null {
   return Number.isFinite(timestamp) ? new Date(timestamp) : null;
 }
 
+function formatInEventZone(
+  date: Date,
+  locale: Locale,
+  options: Intl.DateTimeFormatOptions
+) {
+  return new Intl.DateTimeFormat(locale, {
+    ...options,
+    timeZone: EVENT_TIME_ZONE,
+  }).format(date);
+}
+
+function sameEventDay(first: Date, second: Date) {
+  return (
+    formatInEventZone(first, "en", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }) ===
+    formatInEventZone(second, "en", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+  );
+}
+
+const shortDateOptions: Intl.DateTimeFormatOptions = {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+};
+
+const shortTimeOptions: Intl.DateTimeFormatOptions = {
+  hour: "numeric",
+  minute: "2-digit",
+};
+
 export function formatEventDate(value: string, locale: Locale): string | null {
   const date = parseEventDate(value);
-  return date
-    ? `${new Intl.DateTimeFormat(locale, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      timeZone: EVENT_TIME_ZONE,
-    }).format(date)} IST`
-    : null;
+  if (!date) return null;
+  return `${formatInEventZone(date, locale, shortDateOptions)}, ${formatInEventZone(date, locale, shortTimeOptions)}`;
 }
 
 export function formatEventDateRange(
@@ -51,19 +80,20 @@ export function formatEventDateRange(
   endValue: string | undefined,
   locale: Locale
 ): string | null {
-  const start = formatEventDate(startValue, locale);
-  if (!start) return null;
   const startDate = parseEventDate(startValue);
+  if (!startDate) return null;
+  const startDateLabel = formatInEventZone(startDate, locale, shortDateOptions);
+  const startTimeLabel = formatInEventZone(startDate, locale, shortTimeOptions);
   const endDate = endValue ? parseEventDate(endValue) : null;
-  if (
-    !startDate ||
-    !endDate ||
-    endDate.getTime() <= startDate.getTime()
-  ) {
-    return start;
+  if (!endDate || endDate.getTime() <= startDate.getTime()) {
+    return `${startDateLabel}, ${startTimeLabel}`;
   }
-  const end = endValue ? formatEventDate(endValue, locale) : null;
-  return end ? `${start} – ${end}` : start;
+  const endTimeLabel = formatInEventZone(endDate, locale, shortTimeOptions);
+  if (sameEventDay(startDate, endDate)) {
+    return `${startDateLabel} · ${startTimeLabel} – ${endTimeLabel}`;
+  }
+  const endDateLabel = formatInEventZone(endDate, locale, shortDateOptions);
+  return `${startDateLabel}, ${startTimeLabel} – ${endDateLabel}, ${endTimeLabel}`;
 }
 
 export function getCurrentTimestamp(): number {

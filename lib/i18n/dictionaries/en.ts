@@ -74,7 +74,7 @@ const dictionary: Dictionary = {
     title: "Community",
     description:
       "Connect with the GDCVITC team and other players.",
-    coordinator: "Co-ordinator",
+    coordinator: "Coordinators",
     teamLead: "Team Lead",
     members: "Members",
     membersComingSoon: "Member profiles will be added soon.",

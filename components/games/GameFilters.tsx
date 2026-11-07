@@ -85,7 +85,7 @@ export function GameFilters({ onFilterChange }: GameFiltersProps) {
                   onClick={() => handleChange("genre", g)}
                   className={`motion-button px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] rounded-sm border transition-colors ${
                     selectedGenre === g
-                      ? "bg-accent text-accent-foreground border-accent shadow-[0_0_12px_rgba(212,175,55,0.2)]"
+                      ? "bg-accent text-accent-foreground border-accent shadow-[0_0_12px_rgba(59,130,246,0.28)]"
                       : "border-accent/35 bg-black/60 text-muted-foreground hover:border-accent/55 hover:text-foreground"
                   }`}
                 >
@@ -104,7 +104,7 @@ export function GameFilters({ onFilterChange }: GameFiltersProps) {
                   onClick={() => handleChange("platform", p)}
                   className={`motion-button px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] rounded-sm border transition-colors ${
                     selectedPlatform === p
-                      ? "bg-accent text-accent-foreground border-accent shadow-[0_0_12px_rgba(212,175,55,0.2)]"
+                      ? "bg-accent text-accent-foreground border-accent shadow-[0_0_12px_rgba(59,130,246,0.28)]"
                       : "border-accent/35 bg-black/60 text-muted-foreground hover:border-accent/55 hover:text-foreground"
                   }`}
                 >
@@ -123,7 +123,7 @@ export function GameFilters({ onFilterChange }: GameFiltersProps) {
                   onClick={() => handleChange("year", y)}
                   className={`motion-button px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] rounded-sm border transition-colors ${
                     selectedYear === y
-                      ? "bg-accent text-accent-foreground border-accent shadow-[0_0_12px_rgba(212,175,55,0.2)]"
+                      ? "bg-accent text-accent-foreground border-accent shadow-[0_0_12px_rgba(59,130,246,0.28)]"
                       : "border-accent/35 bg-black/60 text-muted-foreground hover:border-accent/55 hover:text-foreground"
                   }`}
                 >

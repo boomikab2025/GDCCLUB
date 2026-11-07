@@ -25,7 +25,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <span className="inline-flex items-center gap-2.5 px-4 py-1.5 mb-6 text-[11px] font-semibold tracking-[0.22em] uppercase border border-accent/50 bg-black text-accent shadow-[inset_0_1px_0_rgba(240,215,140,0.15),0_0_20px_rgba(212,175,55,0.12)]">
+          <span className="inline-flex items-center gap-2.5 px-4 py-1.5 mb-6 text-[11px] font-semibold tracking-[0.22em] uppercase border border-accent/50 bg-black text-accent shadow-[inset_0_1px_0_rgba(147,197,253,0.2),0_0_20px_rgba(59,130,246,0.22)]">
             <span className="h-1.5 w-1.5 rotate-45 bg-accent shrink-0" aria-hidden />
             {dict.hero.badge}
             <span className="h-1.5 w-1.5 rotate-45 bg-accent shrink-0" aria-hidden />

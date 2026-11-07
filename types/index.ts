@@ -36,17 +36,26 @@ export interface Game {
   awards?: string[];
 }
 
+export interface TeamMemberLink {
+  label: string;
+  href: string;
+}
+
 export interface TeamMember {
   id: string;
   name: string;
   role: string;
   category: "coordinator" | "team-lead" | "member";
-  /** Handle / nickname shown under the name */
+  /** Handle / nickname. Shown in the hover card, not under the circle. */
   tagname?: string;
-  /** GitHub profile URL */
+  /** Short bio shown in the hover card. */
+  about?: string;
+  /** GitHub profile URL. Avatar falls back to this profile's png. */
   github?: string;
-  /** Avatar URL (usually GitHub avatar) */
+  /** Avatar URL. Use a GitHub png when you have one. */
   image?: string;
+  /** Extra links shown in the hover card. */
+  links?: TeamMemberLink[];
 }
 
 export interface NavItem {

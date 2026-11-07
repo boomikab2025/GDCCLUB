@@ -1,20 +1,251 @@
 [
   {
     "id": "1",
-    "name": "Alex Placeholder",
-    "tagname": "alex_dev",
-    "role": "Game Developer",
-    "category": "coordinator",
-    "github": "https://github.com/example",
-    "image": "https://github.com/example.png?size=400"
+    "name": "Placeholder Coordinator 1",
+    "tagname": "coordinator_1",
+    "role": "Club Coordinator",
+    "category": "coordinator"
   },
   {
     "id": "2",
-    "name": "Sam Sample",
-    "tagname": "pixel_sam",
+    "name": "Placeholder Coordinator 2",
+    "tagname": "coordinator_2",
+    "role": "Club Coordinator",
+    "category": "coordinator"
+  },
+  {
+    "id": "3",
+    "name": "Placeholder Lead 1",
+    "tagname": "lead_1",
+    "role": "Programming Lead",
+    "category": "team-lead"
+  },
+  {
+    "id": "4",
+    "name": "Placeholder Lead 2",
+    "tagname": "lead_2",
+    "role": "Art Lead",
+    "category": "team-lead"
+  },
+  {
+    "id": "5",
+    "name": "Placeholder Lead 3",
+    "tagname": "lead_3",
+    "role": "Design Lead",
+    "category": "team-lead"
+  },
+  {
+    "id": "6",
+    "name": "Placeholder Lead 4",
+    "tagname": "lead_4",
+    "role": "Audio Lead",
+    "category": "team-lead"
+  },
+  {
+    "id": "7",
+    "name": "Placeholder Lead 5",
+    "tagname": "lead_5",
+    "role": "Production Lead",
+    "category": "team-lead"
+  },
+  {
+    "id": "8",
+    "name": "Placeholder Member 01",
+    "tagname": "member_01",
+    "role": "Game Developer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "9",
+    "name": "Placeholder Member 02",
+    "tagname": "member_02",
     "role": "2D Artist",
-    "category": "team-lead",
-    "github": "https://github.com/octocat",
-    "image": "https://github.com/octocat.png?size=400"
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "10",
+    "name": "Placeholder Member 03",
+    "tagname": "member_03",
+    "role": "3D Artist",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "11",
+    "name": "Placeholder Member 04",
+    "tagname": "member_04",
+    "role": "Writer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "12",
+    "name": "Placeholder Member 05",
+    "tagname": "member_05",
+    "role": "Composer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "13",
+    "name": "Placeholder Member 06",
+    "tagname": "member_06",
+    "role": "QA",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "14",
+    "name": "Placeholder Member 07",
+    "tagname": "member_07",
+    "role": "Game Developer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "15",
+    "name": "Placeholder Member 08",
+    "tagname": "member_08",
+    "role": "2D Artist",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "16",
+    "name": "Placeholder Member 09",
+    "tagname": "member_09",
+    "role": "3D Artist",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "17",
+    "name": "Placeholder Member 10",
+    "tagname": "member_10",
+    "role": "Writer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "18",
+    "name": "Placeholder Member 11",
+    "tagname": "member_11",
+    "role": "Composer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "19",
+    "name": "Placeholder Member 12",
+    "tagname": "member_12",
+    "role": "QA",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "20",
+    "name": "Placeholder Member 13",
+    "tagname": "member_13",
+    "role": "Game Developer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "21",
+    "name": "Placeholder Member 14",
+    "tagname": "member_14",
+    "role": "2D Artist",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "22",
+    "name": "Placeholder Member 15",
+    "tagname": "member_15",
+    "role": "3D Artist",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "23",
+    "name": "Placeholder Member 16",
+    "tagname": "member_16",
+    "role": "Writer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "24",
+    "name": "Placeholder Member 17",
+    "tagname": "member_17",
+    "role": "Composer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "25",
+    "name": "Placeholder Member 18",
+    "tagname": "member_18",
+    "role": "QA",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "26",
+    "name": "Placeholder Member 19",
+    "tagname": "member_19",
+    "role": "Game Developer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "27",
+    "name": "Placeholder Member 20",
+    "tagname": "member_20",
+    "role": "2D Artist",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "28",
+    "name": "Placeholder Member 21",
+    "tagname": "member_21",
+    "role": "3D Artist",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "29",
+    "name": "Placeholder Member 22",
+    "tagname": "member_22",
+    "role": "Writer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "30",
+    "name": "Placeholder Member 23",
+    "tagname": "member_23",
+    "role": "Composer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "31",
+    "name": "Placeholder Member 24",
+    "tagname": "member_24",
+    "role": "QA",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
+  },
+  {
+    "id": "32",
+    "name": "Placeholder Member 25",
+    "tagname": "member_25",
+    "role": "Game Developer",
+    "category": "member",
+    "github": "https://github.com/JCKawin"
   }
 ]

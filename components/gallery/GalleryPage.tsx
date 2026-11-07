@@ -148,7 +148,7 @@ function getSessionPhotoOrder(photos: GallerySlide[]): GallerySlide[] {
 
 function PhotoUnavailable({ label }: { label: string }) {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-3 bg-[radial-gradient(ellipse_at_50%_35%,rgba(212,175,55,0.12),transparent_58%),linear-gradient(135deg,#0b0b0a,#19160e)] px-4 text-center text-accent/80">
+    <div className="flex h-full flex-col items-center justify-center gap-3 bg-[radial-gradient(ellipse_at_50%_35%,rgba(59,130,246,0.16),transparent_58%),linear-gradient(135deg,#070b14,#0e1a2e)] px-4 text-center text-accent/80">
       <ImageOff aria-hidden="true" className="h-8 w-8" strokeWidth={1.2} />
       <span className="text-xs tracking-wide text-foreground/65">{label}</span>
     </div>
@@ -367,7 +367,7 @@ export function GalleryPage({
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="relative isolate overflow-hidden border-b border-accent/10 bg-[radial-gradient(ellipse_at_50%_0%,rgba(212,175,55,0.12),transparent_58%)] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <header className="relative isolate overflow-hidden border-b border-accent/10 bg-[radial-gradient(ellipse_at_50%_0%,rgba(59,130,246,0.18),transparent_58%)] px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-accent">
             <Camera aria-hidden="true" className="h-4 w-4" />

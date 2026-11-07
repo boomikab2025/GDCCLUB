@@ -94,9 +94,9 @@ export function EventCountdown({
       role="timer"
       aria-label={`${dict.events.startsIn}: ${formatted}`}
       lang={locale}
-      className="mt-3 rounded-lg border border-accent/15 bg-black/20 px-3 py-2"
+      className="mt-2 rounded-md border border-accent/15 bg-black/20 px-2 py-1.5"
     >
-      <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent sm:text-xs">
+      <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-accent">
         {dict.events.startsIn}
       </p>
       <div
@@ -108,7 +108,7 @@ export function EventCountdown({
             key={label}
             className="flex min-w-0 flex-col items-center rounded-md bg-accent/5 px-1 py-1"
           >
-            <span className="text-sm font-semibold leading-5 text-foreground sm:text-base">
+            <span className="text-xs font-semibold leading-4 text-foreground">
               {String(value ?? 0).padStart(2, "0")}
             </span>
             <span className="truncate text-[9px] leading-3 text-muted-foreground sm:text-[10px]">

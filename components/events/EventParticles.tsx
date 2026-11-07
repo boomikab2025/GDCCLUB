@@ -21,7 +21,7 @@ export function EventParticles() {
       {particles.map((particle, index) => (
         <motion.span
           key={index}
-          className="absolute rounded-full bg-accent shadow-[0_0_12px_rgba(212,175,55,0.65)]"
+          className="absolute rounded-full bg-accent shadow-[0_0_12px_rgba(59,130,246,0.7)]"
           style={{
             left: particle.left,
             top: particle.top,

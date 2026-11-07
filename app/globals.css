@@ -4,29 +4,29 @@
 
 /*
   Brand palette:
-  #000000 black · #D4AF37 gold · #DDDDDD soft gray · #EEEEEE light gray
+  deep navy · #3B82F6 blue · #93C5FD light blue · cool gray text
 */
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 93%; /* #EEEEEE */
-    --card: 0 0% 0%;
-    --card-foreground: 0 0% 93%;
-    --popover: 0 0% 0%;
-    --popover-foreground: 0 0% 93%;
-    --primary: 0 0% 93%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 46 12% 8%;
-    --secondary-foreground: 0 0% 93%;
-    --muted: 46 12% 8%;
-    --muted-foreground: 0 0% 87%; /* #DDDDDD */
-    --accent: 46 65% 52%; /* #D4AF37 */
-    --accent-foreground: 0 0% 0%; /* black on gold */
+    --background: 222 47% 4%;
+    --foreground: 210 40% 96%;
+    --card: 222 42% 7%;
+    --card-foreground: 210 40% 96%;
+    --popover: 222 42% 7%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 210 40% 96%;
+    --primary-foreground: 222 47% 6%;
+    --secondary: 217 33% 12%;
+    --secondary-foreground: 210 40% 96%;
+    --muted: 217 33% 12%;
+    --muted-foreground: 215 18% 74%;
+    --accent: 217 91% 60%; /* #3B82F6 */
+    --accent-foreground: 222 60% 5%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 93%;
-    --border: 46 15% 16%;
-    --input: 46 15% 16%;
-    --ring: 46 65% 52%; /* #D4AF37 */
+    --destructive-foreground: 210 40% 96%;
+    --border: 217 32% 18%;
+    --input: 217 32% 18%;
+    --ring: 217 91% 60%; /* #3B82F6 */
     --radius: 0.5rem;
     color-scheme: dark;
   }
@@ -57,14 +57,14 @@
 
 @layer utilities {
   .text-gradient {
-    background-image: linear-gradient(to right, #f0d78c, #d4af37, #a68b2c);
+    background-image: linear-gradient(to right, #bfdbfe, #3b82f6, #1d4ed8);
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
   }
   .glass {
-    background-color: rgba(0, 0, 0, 0.55);
-    border: 1px solid rgba(212, 175, 55, 0.15);
+    background-color: rgba(6, 12, 24, 0.72);
+    border: 1px solid rgba(59, 130, 246, 0.2);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }

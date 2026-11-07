@@ -13,20 +13,20 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        /** Solid gold — high emphasis (status, primary tags) */
+        /** Solid blue — high emphasis (status, primary tags) */
         default:
-          "border-accent bg-accent text-accent-foreground shadow-[0_0_16px_rgba(212,175,55,0.2)]",
-        /** Quiet gold outline — secondary / meta */
+          "border-accent bg-accent text-accent-foreground shadow-[0_0_16px_rgba(59,130,246,0.28)]",
+        /** Quiet blue outline — secondary / meta */
         secondary:
           "border-accent/35 bg-black/60 text-muted-foreground hover:border-accent/55 hover:text-foreground",
         destructive:
           "border-transparent bg-destructive text-destructive-foreground",
-        /** Gold frame on black — main accent chip */
+        /** Blue frame on navy — main accent chip */
         outline:
           "border-accent/55 bg-black text-accent",
-        /** Soft gold wash — genres, categories */
+        /** Soft blue wash — genres, categories */
         accent:
-          "border-accent/45 bg-gradient-to-b from-accent/15 to-accent/5 text-accent shadow-[inset_0_1px_0_rgba(240,215,140,0.12)]",
+          "border-accent/45 bg-gradient-to-b from-accent/15 to-accent/5 text-accent shadow-[inset_0_1px_0_rgba(147,197,253,0.16)]",
       },
     },
     defaultVariants: { variant: "default" },

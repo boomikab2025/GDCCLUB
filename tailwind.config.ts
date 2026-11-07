@@ -11,10 +11,10 @@ const config: Config = {
     extend: {
       colors: {
         accent: {
-          DEFAULT: "#D4AF37",
-          dark: "#A68B2C",
-          light: "#F0D78C",
-          foreground: "#000000",
+          DEFAULT: "#3B82F6",
+          dark: "#1D4ED8",
+          light: "#93C5FD",
+          foreground: "#041018",
         },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -38,6 +38,7 @@ const config: Config = {
         "fade-in": "fadeIn 0.5s ease-out",
         "slide-up": "slideUp 0.5s ease-out",
         "pulse-glow": "pulseGlow 2s ease-in-out infinite",
+        marquee: "marquee 80s linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -48,9 +49,13 @@ const config: Config = {
           "0%": { transform: "translateY(20px)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
         pulseGlow: {
-          "0%, 100%": { boxShadow: "0 0 20px rgba(212, 175, 55, 0.35)" },
-          "50%": { boxShadow: "0 0 40px rgba(212, 175, 55, 0.65)" },
+          "0%, 100%": { boxShadow: "0 0 20px rgba(59, 130, 246, 0.35)" },
+          "50%": { boxShadow: "0 0 40px rgba(59, 130, 246, 0.65)" },
         },
       },
     },
