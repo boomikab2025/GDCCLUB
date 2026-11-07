@@ -2,7 +2,7 @@ import { Locale } from "@/types";
 
 export const i18n = {
   defaultLocale: "en" as Locale,
-  locales: ["en", "ta", "ru", "hi", "zh", "ja", "de", "es"] as Locale[],
+  locales: ["en", "ta", "hi", "fr"] as Locale[],
 };
 
 export type { Locale };

@@ -1,4 +1,4 @@
-export type Locale = "en" | "ta" | "ru" | "hi" | "zh" | "ja" | "de" | "es";
+export type Locale = "en" | "ta" | "hi" | "fr";
 
 export type GameStatus = "released" | "coming-soon" | "in-development";
 
